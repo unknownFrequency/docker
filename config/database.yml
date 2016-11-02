@@ -9,7 +9,7 @@ development:
   <<: *default
   database: mydb
   username: root
-  password: mysql_password
+  password: mysql_pass
   host: localhost
 
   # The specified database role being used to connect to postgres.
