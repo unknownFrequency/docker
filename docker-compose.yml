@@ -3,9 +3,9 @@ services:
   mysql2:
     #build: containers/mysql
     image: mysql
-    # volumes:
-        # - containers/mysql:/var/lib/mysql
-      # - containers/mysql/mysqld.conf:/etc/mysql/mysql.conf.d/mysqld2.conf
+    volumes:
+      - containers/mysql:/var/lib/mysql
+      - containers/mysql/mysqld.conf:/etc/mysql/mysql.conf.d/mysqld2.conf
     ports:
       - "3306:3306"
     environment:
