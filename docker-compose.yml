@@ -1,14 +1,18 @@
 version: '2'
 services:
-  db:
-    build: containers/mysql
+  mysql2:
+    #build: containers/mysql
+    image: mysql
+    # volumes:
+        # - containers/mysql:/var/lib/mysql
+      # - containers/mysql/mysqld.conf:/etc/mysql/mysql.conf.d/mysqld2.conf
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=mysqlPassword
-      - MYSQL_USER=root
-        # - MYSQL_PASSWORD=123456
-        ## - MYSQL_DATABASE=mydb
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=ghost
+      - MYSQL_USER=ghost
+      - MYSQL_PASSWORD=password
     networks:
       - db
 
@@ -17,7 +21,7 @@ services:
     volumes:
       - /app/log # persist logs
     depends_on:
-      - db
+      - mysql2
     networks:
       - db
 
