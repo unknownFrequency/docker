@@ -9,10 +9,11 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=<%= ENV['MYSQL_ROOT_PASSWORD'] %>
       - MYSQL_DATABASE=ghost
       - MYSQL_USER=ghost
       - MYSQL_PASSWORD=password
+
     networks:
       - db
 
