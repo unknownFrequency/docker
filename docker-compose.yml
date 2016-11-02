@@ -1,20 +1,38 @@
 version: '2'
 services:
+  db:
+    build: containers/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql_pass
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=123456
+      - MYSQL_DATABASE=mydb
+    networks:
+      - db
+
   web:
     build: .
     volumes:
       - /app/log # persist logs
     depends_on:
       - db
+    networks:
+      - db
 
   nginx:
     build: containers/nginx
     ports:
       - "8080:80"
+    # Put logs in app/log
     volumes_from:
       - web
     depends_on:
       - web
 
+  
+networks:
   db:
-    image: postgres
+volumes:
+  mysql:
