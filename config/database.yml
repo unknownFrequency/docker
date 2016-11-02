@@ -8,8 +8,9 @@ default: &default
 development:
   <<: *default
   database: ghost
-  username: ghost
-  password: password
+  username: root
+  password: rootpassword
+  ## Name of db container 
   host: mysql2
   port: 3306
 
