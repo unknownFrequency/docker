@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @inquiry.type %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @inquiry.user_id %>
+</p>
+
+<p>
+  <strong>Fly date:</strong>
+  <%= @inquiry.fly_date %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @inquiry.longitude %>
+</p>
+
+<p>
+  <strong>Aptitide:</strong>
+  <%= @inquiry.aptitide %>
+</p>
+
+<%= link_to 'Edit', edit_inquiry_path(@inquiry) %> |
+<%= link_to 'Back', inquiries_path %>

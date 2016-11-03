@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  user_id: 1
+  fly_date: 2016-11-03
+  longitude: 1.5
+  aptitide: 1.5
+
+two:
+  type: 
+  user_id: 1
+  fly_date: 2016-11-03
+  longitude: 1.5
+  aptitide: 1.5
