@@ -9,6 +9,7 @@ gem 'therubyracer', platforms: :ruby
 gem 'jsonapi-resources'
 gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
+gem 'devise'
 
 group :development, :test do
   gem 'byebug', platform: :mri
