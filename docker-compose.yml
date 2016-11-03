@@ -20,7 +20,8 @@ services:
   web:
     build: .
     volumes:
-      - /app/log # persist logs
+      - /app
+    # - /app/log # persist logs
     depends_on:
       - mysql2
     networks:
