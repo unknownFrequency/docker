@@ -11,7 +11,6 @@ ADD Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 ADD . /app
 RUN mkdir -p tmp/sockets
-
 ## Expose volumes to frontend
 VOLUME /app/public
 ## For unix (puma) socket
