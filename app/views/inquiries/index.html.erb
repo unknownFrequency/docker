@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Inquiries</h1>
+
+
+    <% @inquiries.each_with_index do |inquiry, i| %>
+      <div> 
+        <p><strong><%= (i+1).to_s %></strong>: </p>
+        <p style="margin-left:20px"><%= inquiry.title %></p>
+        <p style="margin-left:20px"><%= inquiry.body %></p>
+      </div>
+
+      <%= link_to 'Show', inquiry %>
+      <%= link_to 'Edit', edit_inquiry_path(inquiry) %>
+      <%= link_to 'Destroy', inquiry, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+    <br>
+    <%= debug @inquiries[0]['id'] %>
+<%= link_to 'New Inquiry', new_inquiry_path %>
