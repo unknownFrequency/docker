@@ -1,32 +1,31 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
+  ## TODO: should be set to something including 'null'
+  #protect_from_forgery with: :exception
+  
+  protected
+  #This is an before_action being called from home_view
+  def authenticate_request! 
+    unless user_id_in_token?
+      render json: { errors: ['Her skal du ikke være!!'] }, status: :unauthorized
+    end
 
-   attr_reader :current_user
+    rescue JWT::VerificationError, JWT::DecodeError
+    #render json: { errors: ['Not Authenticated']  }, status: :unauthorized
+  end
 
-     protected
-     def authenticate_request!
-       unless user_id_in_token?
-         render json: { errors: ['Not Authenticated']  }, status: :unauthorized
-         return
-       end
+  private
+  def http_token
+    @http_token ||= if request.headers['Authorization'].present?
+      request.headers['Authorization'].split(' ').last
+      render json: { message: ['http_token sat!']  }
+    end
+  end
 
-       @current_user = User.find(auth_token[:user_id])
-       rescue JWT::VerificationError, JWT::DecodeError
-       render json: { errors: ['Not Authenticated']  }, status: :unauthorized
-     end
+  def auth_token
+    @auth_token ||= JsonWebToken.decode(http_token)
+  end
 
-     private
-     def http_token
-       @http_token ||= if request.headers['Authorization'].present?
-         request.headers['Authorization'].split(' ').last
-       end
-     end
-
-     def auth_token
-       @auth_token ||= JsonWebToken.decode(http_token)
-     end
-
-     def user_id_in_token?
-       http_token && auth_token && auth_token[:user_id].to_i
-     end
+  def user_id_in_token?
+    http_token && auth_token && auth_token[:user_id].to_i
+  end
 end

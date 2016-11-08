@@ -1,19 +1,22 @@
 class AuthenticationController < ApplicationController
   def authenticate_user
-    user = User.find_for_database_authentication(email: params[:email])
-    if user.valid_password?(params[:password])
-      render json: payload(user)
+    user_creds = JSON.parse(request.raw_post)
+    
+    #JSON.parse(
+    if (u = user_creds['username'] && p = user_creds['password'])
+      render json: payload(u, p)
     else
       render json: {errors: ['Forkert Brugernavn/Password']}, status: :unauthorized
     end
   end
 
   private
-  def payload(user)
-    return nil unless user and user.id
+  def payload(username, password)
+    return nil unless username and password
     {
-      auth_token: JsonWebToken.encode({user_id: user.id}),
-      user: {id: user.id, email: user.email}
+      ## TODO: change username to unique or use ID 
+      auth_token: JsonWebToken.encode({ username: username }),
+      user: {username: username, password: password}
     }
   end
 end
