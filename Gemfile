@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'mysql2'
 gem 'puma', '~> 3.0'
@@ -18,6 +17,8 @@ group :development do
   gem 'listen', '~> 3.0.5'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'better_errors'
+  gem "binding_of_caller"
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
@@ -27,3 +28,5 @@ gem 'less-rails'
 gem "sprockets", '3.6.3'
 gem 'react-rails'
 gem 'jwt'
+gem 'rmagick'
+gem 'carrierwave'

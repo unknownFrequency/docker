@@ -4,17 +4,17 @@ RUN apt-get update -qq && \
     apt-get clean
 
 ## Rails App
-RUN mkdir /app
-WORKDIR /app
-ADD Gemfile /app/Gemfile
-ADD Gemfile.lock /app/Gemfile.lock
-RUN bundle install
-ADD . /app
-RUN mkdir -p tmp/sockets
-## Expose volumes to frontend
-VOLUME /app/public
-## For unix (puma) socket
-VOLUME /app/tmp
+ENV APP /app
+RUN mkdir $APP
+WORKDIR $APP
+ADD Gemfile* $APP/
 
-# Start Server
-CMD bundle exec puma
+ENV BUNDLE_GEMFILE=$APP/Gemfile \
+  BUNDLE_JOBS=2 \
+  BUNDLE_PATH=/bundle
+
+ADD . $APP
+RUN mkdir -p tmp/sockets
+
+VOLUME $APP/public
+VOLUME $APP/tmp

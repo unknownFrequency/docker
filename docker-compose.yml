@@ -19,9 +19,11 @@ services:
 
   web:
     build: .
+    command: ./scripts/start.sh
     volumes:
       - .:/app
       - /app/log
+      - bundle:/bundle
     depends_on:
       - mysql2
     networks:
@@ -42,3 +44,4 @@ networks:
   db:
 volumes:
   mysql:
+  bundle: {}
