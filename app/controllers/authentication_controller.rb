@@ -4,7 +4,7 @@ class AuthenticationController < ApplicationController
     
     if (u = user_creds['username'] && p = user_creds['password'])
       encoded_auth_token = payload(u, p)
-      render json: encoded_auth_token
+      render json: ActiveSupport::JSON.decode(encoded_auth_token)
     else
       render json: { errors: ['Forkert Brugernavn/Password'] }, status: :unauthorized
     end
