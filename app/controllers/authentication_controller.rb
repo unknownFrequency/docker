@@ -2,11 +2,11 @@ class AuthenticationController < ApplicationController
   def authenticate_user
     user_creds = JSON.parse(request.raw_post)
     
-    #JSON.parse(
     if (u = user_creds['username'] && p = user_creds['password'])
-      render json: payload(u, p)
+      encoded_auth_token = payload(u, p)
+      render json: encoded_auth_token
     else
-      render json: {errors: ['Forkert Brugernavn/Password']}, status: :unauthorized
+      render json: { errors: ['Forkert Brugernavn/Password'] }, status: :unauthorized
     end
   end
 
