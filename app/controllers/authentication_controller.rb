@@ -1,18 +1,16 @@
 class AuthenticationController < ApplicationController
+
   def authenticate_user
     user_creds = ActiveSupport::JSON.decode(request.raw_post)
 
-    if (u=user_creds['username'] && p=user_creds['password'])
-      if auth_token = payload(u, p)
-        respond_to do |format|
-          request.headers['Authorization']
-          format.json { render json: {auth_token: auth_token}, status: :created }
-        end
+    respond_to do |format|
+      ## TODO: Do db user auth here?
+      ## If username + password is correct, create auth_token
+      if encoded_token = payload(user_creds['username'], user_creds['password'])
+        format.json { render json: {encoded_token: encoded_token}, status: :created }
       else
-        render json: { errors: ['Noget gik galt med genereringen token'] }, status: :unauthorized
+        format.json { render json: { errors: ['Noget gik galt med genereringen token'] }, status: :unauthorized }
       end
-    else
-      render json: { errors: ['Forkert Brugernavn/Password'] }, status: :unauthorized
     end
   end
 
@@ -20,7 +18,9 @@ class AuthenticationController < ApplicationController
   def payload(username, password)
     return nil unless username and password
     {
-      ## TODO: change username to unique or use ID 
+      ## Also called Claims. Pass eg. ID + username + email
+      ## Is 2nd in the full token header.PAYLOAD.signature (sig = HMACSHA256(payload, secret))
+      ## TODO: change username to unique or use ID and remove user info?
       auth_token: JsonWebToken.encode({ username: username }),
       user: { username: username, password: password }
     }
