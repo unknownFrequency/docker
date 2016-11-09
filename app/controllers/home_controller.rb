@@ -3,8 +3,15 @@ class HomeController < ApplicationController
 
   def index
     respond_to do |format|
-      format.json { render json: {logged_in: true, 
-                                  auth_header: request.headers['Authorization']} }
+      if not request.headers['Authorization'].nil?
+        format.json { render json: {
+                        logged_in: true,
+                        auth_header: request.headers['Authorization']
+                    }}
+      else
+        format.json { render json: {error: "Authentication Header ikke sat korrekt"} }
+      end
     end
   end
+
 end

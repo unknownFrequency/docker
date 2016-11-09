@@ -9,7 +9,8 @@ class JsonWebToken
     nil
   end
 
-  def valid?
+  public
+  def self.valid_token?
     request.headers['Authorization'] ? true : nil
   end
 
