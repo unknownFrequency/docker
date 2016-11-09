@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   ## TODO: should be set to something including 'null'
   #protect_from_forgery with: :exception
-  require('json_web_token')
+
+  ALG = 'HS256'
 
   protected
   ## This is an before_action being called from home_view
@@ -9,10 +10,9 @@ class ApplicationController < ActionController::Base
   def authenticate_request! 
     if verify_token
       @user = ActiveSupport::JSON.encode([
-        some_value: "true",
-        decoded_token: @decoded_token
+        username: @decoded_token[0],
+        encoded_token: @http_token
       ])
-      render json: @user, status: :authorized
     end
   end
 
@@ -25,14 +25,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  ## TODO: Rescue / catch when tampered with
   def decode_token
-    ## TODO: Why can't I use method from lib?????
-    #@auth_token = JsonWebToken.decode(@http_token)
-    @decoded_token = HashWithIndifferentAccess.new(JWT.decode(http_token, Rails.application.secrets.secret_key_base)[0])
+    @decoded_token = JWT.decode(
+                                @http_token, 
+                                Rails.application.secrets.secret_key_base,
+                                {algorithm: ALG}
+                               )
   end
 
   ## TODO: Change to uniq user_id
   def verify_token
-    http_token && decode_token && @decoded_token[:username]
+    http_token && decode_token # && @decoded_token[:username]
   end
 end
