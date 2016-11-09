@@ -8,4 +8,9 @@ class JsonWebToken
   rescue
     nil
   end
+
+  def valid?
+    request.headers['Authorization'] ? true : nil
+  end
+
 end

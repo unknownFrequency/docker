@@ -4,20 +4,18 @@ class ApplicationController < ActionController::Base
   
   protected
   #This is an before_action being called from home_view
+  #rescue JWT::VerificationError, JWT::DecodeError
+  #
   def authenticate_request! 
-    unless user_id_in_token?
-      render json: { errors: ['Her skal du ikke være!!'] }, status: :unauthorized
+    if user_id_in_token?
+      render json: { message: ['LOGGET IND IND IND']  }, status: :authorized
     end
-
-    rescue JWT::VerificationError, JWT::DecodeError
-    #render json: { errors: ['Not Authenticated']  }, status: :unauthorized
   end
 
   private
   def http_token
     @http_token ||= if request.headers['Authorization'].present?
       request.headers['Authorization'].split(' ').last
-      render json: { message: ['http_token sat!']  }
     end
   end
 
@@ -25,7 +23,8 @@ class ApplicationController < ActionController::Base
     @auth_token ||= JsonWebToken.decode(http_token)
   end
 
+  ## TODO: Change to uniq user_id
   def user_id_in_token?
-    http_token && auth_token && auth_token[:user_id].to_i
+    http_token && auth_token && auth_token[:username]
   end
 end
