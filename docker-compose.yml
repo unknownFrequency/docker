@@ -1,10 +1,9 @@
 version: '2'
 services:
   mysql2:
-    #build: containers/mysql
     image: mysql
     volumes:
-      #- ./containers/mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
       - ./containers/mysql/mysqld.conf:/etc/mysql/mysql.conf.d/mysqld2.conf
     ports:
       - "3306:3306"
@@ -24,6 +23,8 @@ services:
       - .:/app
       - /app/log
       - bundle:/bundle
+    #ports:
+      #- "8080:8080"
     depends_on:
       - mysql2
     networks:
