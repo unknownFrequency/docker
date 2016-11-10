@@ -30,12 +30,13 @@ class ApplicationController < ActionController::Base
     @decoded_token = JWT.decode(
                                 @http_token, 
                                 Rails.application.secrets.secret_key_base,
-                                {algorithm: ALG}
+                                ALG
                                )
   end
 
   ## TODO: Change to uniq user_id
   def verify_token
     http_token && decode_token # && @decoded_token[:username]
+    decode_token.inspect
   end
 end

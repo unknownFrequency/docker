@@ -23,8 +23,8 @@ class AuthenticationController < ApplicationController
     {
       auth_token: JWT.encode(
         username, 
-        Rails.application.secrets.secret_key_base, 
-        {algorithm: ALG}
+        Rails.application.secrets.secret_key_base,
+        ALG
       ),
       user: {
         username: username,
