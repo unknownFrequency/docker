@@ -23,5 +23,5 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  ActiveRecord::Tasks::DatabaseTasks::LOCAL_HOSTS << "192.168.99.100"
+  #ActiveRecord::Tasks::DatabaseTasks::LOCAL_HOSTS << "192.168.99.100"
 end

@@ -28,5 +28,5 @@ Rails.application.configure do
   config.assets.quiet = true
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  ActiveRecord::Tasks::DatabaseTasks::LOCAL_HOSTS << "192.168.99.100"
+  #ActiveRecord::Tasks::DatabaseTasks::LOCAL_HOSTS << "192.168.99.100"
 end
