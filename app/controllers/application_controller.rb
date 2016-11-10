@@ -9,10 +9,6 @@ class ApplicationController < ActionController::Base
   ## Does user have a token?
   def authenticate_request! 
     if verify_token
-      @user = ActiveSupport::JSON.encode([
-        username: @decoded_token[0],
-        encoded_token: @http_token
-      ])
     end
   end
 
@@ -28,15 +24,23 @@ class ApplicationController < ActionController::Base
   ## TODO: Rescue / catch when tampered with
   def decode_token
     @decoded_token = JWT.decode(
-                                @http_token, 
-                                Rails.application.secrets.secret_key_base,
-                                ALG
-                               )
+      @http_token,
+      Rails.application.secrets.secret_key_base,
+      ALG
+    )
   end
 
   ## TODO: Change to uniq user_id
   def verify_token
-    http_token && decode_token # && @decoded_token[:username]
-    decode_token.inspect
+    if http_token && decode_token
+      set_user # if decode_token[0] == @user.id 
+    end
+  end
+
+  def set_user
+    @user = ActiveSupport::JSON.encode([
+      username: @decoded_token[0],
+      encoded_token: @http_token
+    ])
   end
 end

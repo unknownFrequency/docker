@@ -22,7 +22,7 @@ class AuthenticationController < ApplicationController
     return nil unless username
     {
       auth_token: JWT.encode(
-        username, 
+        username,
         Rails.application.secrets.secret_key_base,
         ALG
       ),
