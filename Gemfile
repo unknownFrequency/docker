@@ -23,7 +23,6 @@ end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'devise'
 gem 'less-rails'
 gem "sprockets", '3.6.3'
 gem 'react-rails'
