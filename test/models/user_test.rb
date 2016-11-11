@@ -22,20 +22,10 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user2.valid?
   end
 
-  #test "email should have a valid format" do
-    #@users = [
-      #[@user3 = User.new(email: "aa.dk")],
-      #[@user4 = User.new(email: ".dk")],
-      #[@user5 = User.new(email: "aa@dk")],
-      #[@user6 = User.new(email: ".aadk")],
-      #[@user7 = User.new(email: "abc.aadk")],
-    #]
-
-    #@users.each do |user_arr|
-      #user_arr.each do |user|
-        #assert_not user.valid?
-      #end
-    #end
-  #end
-
+  test "username should be unique" do
+    user3 = create(:user, username: "Ruben", email: "a@a.a")
+    assert user3.valid?
+    user4 = User.new(username: "Ruben", email: "b@b.b")
+    assert_not user4.valid?
+  end
 end
