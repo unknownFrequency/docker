@@ -4,15 +4,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "signup" do
     assert_difference "ActionMailer::Base.deliveries.size", +1 do 
-      post users_url, params: { user: {email: "rubuyte@protonmail.com", address: "Gl. Aalborgvej 16"} }
+      post users_url, params: { user: {email: "rubyte@protonmail.com", address: "Gl. Aalborgvej 16"} }
     end
 
     email = ActionMailer::Base.deliveries.last
-    puts email.inspect
     assert_equal ["rt@imusic.dk"],           email.from
-    assert_equal ["rubuyte@protonmail.com"], email.to
+    assert_equal ["rubyte@protonmail.com"],  email.to
     assert_equal "Flyover login link",       email.subject
-
   end
 
   #test "should get new" do

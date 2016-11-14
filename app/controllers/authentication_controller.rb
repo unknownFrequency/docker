@@ -2,8 +2,8 @@ class AuthenticationController < ApplicationController
   def authenticate_user
     user_creds = JSON.parse(request.raw_post)
     
-    if (u = user_creds['username'] && p = user_creds['password'])
-      encoded_auth_token = payload(u, p)
+    if (email = user_creds['email'] )
+      encoded_auth_token = payload(email)
       render json: ActiveSupport::JSON.decode(encoded_auth_token)
     else
       render json: { errors: ['Forkert Brugernavn/Password'] }, status: :unauthorized
@@ -11,12 +11,11 @@ class AuthenticationController < ApplicationController
   end
 
   private
-  def payload(username, password)
-    return nil unless username and password
+  def payload(email)
+    return nil unless username 
     {
-      ## TODO: change username to unique or use ID 
-      auth_token: JsonWebToken.encode({ username: username }),
-      user: {username: username, password: password}
+      auth_token: JsonWebToken.encode({ email: email }),
+      user: {email: email}
     }
   end
 end

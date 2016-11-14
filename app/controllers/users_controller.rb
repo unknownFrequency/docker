@@ -5,15 +5,21 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
+    
     if @user.save
-      UserMailer.email_token(@user.email).deliver
-      #SendEmailJob.set(wait: 20.seconds).perform_later(@user)
-      #redirect_to(@user, :notice => 'Email er sendt!')
+      respond_to do |format|
+        UserMailer.email_token(@user.email).deliver
+
+
+        #puts @user.inspect
+        #format.html { redirect_to home_path, notice: 'Check venligst din email'  }
+        #format.json { render json: @user.email }
+        #render json: {data: {email: @user.email, user_id: @user.id}}
+      end
+    else 
+      #puts @user.errors.inspect
     end
 
-        #format.html { redirect_to 'home#index', notice: 'Check venligst din email'  }
-        #format.json { render :index, status: :created, location: 'home#index'  }
       #else
         #format.html { render 'home#index' }
         #format.json { render json: @user.errors, status: :unprocessable_entity  }
