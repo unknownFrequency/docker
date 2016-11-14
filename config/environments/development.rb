@@ -1,9 +1,7 @@
 Rails.application.configure do
 
   config.cache_classes = false
-
   config.eager_load = false
-
   config.consider_all_requests_local = false
 
   if Rails.root.join('tmp/caching-dev.txt').exist?
@@ -15,10 +13,10 @@ Rails.application.configure do
     }
   else
     config.action_controller.perform_caching = false
-
     config.cache_store = :null_store
   end
 
+  config.action_mailer.delivery_method = :test #default :smtp
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = { host: '192.168.80.3', port: 3000  }
@@ -28,5 +26,15 @@ Rails.application.configure do
   config.assets.quiet = true
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  #ActiveRecord::Tasks::DatabaseTasks::LOCAL_HOSTS << "192.168.99.100"
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "flyover.dk",
+    authentication: "plain",
+    user_name: Rails.application.secrets.email_user,
+    password: Rails.application.secrets.email_password,
+    enable_starttls_auto: true
+
+  }
+
 end
