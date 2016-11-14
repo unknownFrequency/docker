@@ -9,7 +9,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     email = ActionMailer::Base.deliveries.last
     puts email.inspect
-    assert_equal ["support@flyover.dk"],     email.from
+    assert_equal ["rt@imusic.dk"],           email.from
     assert_equal ["rubuyte@protonmail.com"], email.to
     assert_equal "Flyover login link",       email.subject
 

@@ -5,13 +5,11 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    #@user.email = params[:user][:email]
-    #@user.email = params[:user][:address]
 
     if @user.save
-      UserMailer.email_token(params[:user][:email]).deliver
-    else
-      #puts @user.errors.inspect
+      UserMailer.email_token(@user.email).deliver
+      #SendEmailJob.set(wait: 20.seconds).perform_later(@user)
+      #redirect_to(@user, :notice => 'Email er sendt!')
     end
 
         #format.html { redirect_to 'home#index', notice: 'Check venligst din email'  }

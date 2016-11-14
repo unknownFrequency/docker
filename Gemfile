@@ -31,3 +31,4 @@ gem 'react-rails'
 gem 'jwt'
 gem 'rmagick'
 gem 'carrierwave'
+gem 'delayed_job_active_record' #For email 

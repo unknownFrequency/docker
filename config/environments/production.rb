@@ -13,20 +13,23 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
   config.log_formatter = ::Logger::Formatter.new
 
+
+  config.action_mailer.perform_deliveries = true
+  ## MAIL STUFF ##
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
     domain: "flyover.dk",
     authentication: "plain",
-    user_name: Rails.application.secrets.email_user,
-    password: Rails.application.secrets.email_password,
+    user_name: ENV['GMAIL_USERNAME'],
+    password: ENV['GMAIL_PASSWORD'],
     enable_starttls_auto: true
   }
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger = ActiveSupport::TaggedLogging.new(logger)
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
   config.active_record.dump_schema_after_migration = false

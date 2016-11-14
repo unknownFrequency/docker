@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'support@flyover.dk'
+  default from: 'rt@imusic.dk'
   layout 'mailer'
 end
