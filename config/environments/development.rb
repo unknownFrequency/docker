@@ -16,7 +16,7 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  config.action_mailer.delivery_method = :test #default :smtp
+  config.action_mailer.delivery_method = :smtp #or :test
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = { host: '192.168.80.3', port: 3000  }
@@ -26,15 +26,5 @@ Rails.application.configure do
   config.assets.quiet = true
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    domain: "flyover.dk",
-    authentication: "plain",
-    user_name: Rails.application.secrets.email_user,
-    password: Rails.application.secrets.email_password,
-    enable_starttls_auto: true
-
-  }
 
 end

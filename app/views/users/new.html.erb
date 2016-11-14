@@ -1,2 +1,11 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<h1>Send login til email</h1>
+
+<%= form_for(@user) do |f| %>
+  <!-- TODO: Render errors -->
+  <% # render 'shared/errors', object: @user %>
+  <p>
+    <%= f.label :email %>
+    <%= f.text_field :email %>&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.submit 'Send login link til email' %>
+  </p>
+<% end %>

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.new
+    @user = build(:user, email: "")
   end
 
   test "email should be required" do
