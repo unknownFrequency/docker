@@ -1,0 +1,10 @@
+<% if object.errors.any? %>
+  <div id="error_explanation">
+    Oops! <%= object.class.name.humanize %> kunne ikke gemmes. <br />
+    Venligst ret <%= object.errors.count, "error" %>:
+    <ul>
+      <% object.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+    </ul>
+  </div>
+<% end %>
