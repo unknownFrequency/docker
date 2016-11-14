@@ -1,4 +1,5 @@
-/log
-/tmp
+./log
+./tmp
 .byebug_history
-/mysql/ibdata1
+./mysql/ibdata1
+./config/secrets.yml
