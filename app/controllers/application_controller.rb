@@ -7,9 +7,8 @@ class ApplicationController < ActionController::Base
     unless user_id_in_token?
       render json: { errors: ['Her skal du ikke være!!'] }, status: :unauthorized
     end
-
-    rescue JWT::VerificationError, JWT::DecodeError
-    #render json: { errors: ['Not Authenticated']  }, status: :unauthorized
+    #request.headers['Authorization'] = @user.auth_token
+    #rescue JWT::VerificationError, JWT::DecodeError
   end
 
   private

@@ -14,8 +14,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "set JWT token" do
-    post users_url, params: { user: {id: 1, email: "rubyte@protonmail.com", address: "Gade 2"} }
+    ## Expect reponse to bee 200 OK
+    assert_equal (post users_url, 
+                  params: { user: {email: "rubyte@protonmail.com", address: "Gade 2"} }), 200 
   end
+
   #test "should get new" do
     #get users_new_url
     #assert_response :success
