@@ -4,8 +4,8 @@ class User < ApplicationRecord
     uniqueness: { case_sensitive: false }
 
   validates :username, 
-    uniqueness: { case_sensitive: false },
-    presence: false
+    presence: false,
+    uniqueness: true
 
   ## 1 or more words, then space, then number between 1, 99999
   validates :address, 

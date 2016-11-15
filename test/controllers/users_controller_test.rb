@@ -19,8 +19,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create JWT token" do
-    user = build(:user)
-    params = { "user" => user.as_json }
+    @user = build(:user)
+    params = { "user" => @user.as_json }
     #Faker cannot product uniq email???
     params['user']['email'] = rand(100).to_s + "@" + rand(100).to_s + ".dk"
     post users_url, params: params
@@ -28,6 +28,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal @parsed_response['status'], "Token sendt"
   end
 
+  test ""
   #test "should get new" do
     #get users_new_url
     #assert_response :success

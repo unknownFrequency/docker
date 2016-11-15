@@ -51,8 +51,7 @@ class UsersController < ApplicationController
     respond_with @user if @user
   end
 
-  #, :username, :firstname, :lastname, :zip, :address
   def user_params
-    params.require(:user).permit(:email, :address)
+    params.require(:user).permit(:email, :address,:username, :firstname, :lastname, :zip)
   end
 end
