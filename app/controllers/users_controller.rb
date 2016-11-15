@@ -11,17 +11,16 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @token = authenticate_user()
-
       UserMailer.email_token(@user.email, @token[:auth_token]).deliver
 
-      json_msg = { status: "Authenticated", token: @token[:auth_token] }
-      render json: json_msg
+      @json_msg = { status: "Token sendt", token: @token[:auth_token] }
+      render json: @json_msg
 
-      begin
-        @parsed_response = JSON.parse(response.body)
-      rescue JSON::ParserError, TypeError => e
-          puts e
-      end
+      #begin
+        #@parsed_response = JSON.parse(response.body)
+      #rescue JSON::ParserError, TypeError => e
+          #puts e
+      #end
 
       #render json: { data: {email: @user.email, user_id: @user.id} }
       #redirect_to user_auth_path(@user, format: :json)

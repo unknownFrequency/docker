@@ -1,6 +1,6 @@
 <h1>Send login til email</h1>
 
-<%= form_for(@user) do |f| %>
+<%= form_for(@user, :html => {'data-type': 'json'}) do |f| %>
   <!-- TODO: Render errors -->
   <% # render 'shared/errors', object: @user %>
   <p>
