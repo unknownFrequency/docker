@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       @token = authenticate_user()
       UserMailer.email_token(@user.email, @token[:auth_token]).deliver
 
-      @json_msg = { status: "Token sendt", token: @token[:auth_token] }
+      @json_msg = { status: "Token sendt", token: @token[:auth_token], user_id: @user.id }
       render json: @json_msg
 
       #begin

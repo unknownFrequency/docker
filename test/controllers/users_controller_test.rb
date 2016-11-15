@@ -12,23 +12,26 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal ["rubyte@protonmail.com"],  email.to
     assert_equal "Flyover login link",       email.subject
   end
+
 #{'ACCEPT' => "application/json", 'CONTENT_TYPE' => 'application/json'}
   test "signup with all attributes" do
     params = { user: build(:user).as_json }
     assert_equal (post users_url, params: params), 200
   end
 
-  test "create JWT token" do
-    @user = build(:user)
-    params = { "user" => @user.as_json }
-    #Faker cannot product uniq email???
-    params['user']['email'] = rand(100).to_s + "@" + rand(100).to_s + ".dk"
+  setup do
+    #@user = build(:user)
+    
+    params = { "user": {email: "testfgd@dfggh.dk", address: "valid add 1", username: "uniqName"} }
     post users_url, params: params
     @parsed_response = JSON.parse(response.body)
     assert_equal @parsed_response['status'], "Token sendt"
   end
 
-  test ""
+  test "A decoded token should return user_id equal to current users id" do
+    decoded_token_id = ApplicationController::decode(@parsed_response['token'])
+    assert_equal decoded_token_id['user_id'], @parsed_response['user_id']
+  end
   #test "should get new" do
     #get users_new_url
     #assert_response :success

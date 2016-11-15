@@ -30,7 +30,6 @@ class ApplicationController < ActionController::Base
   def authenticate_user()
     user_id = JSON.parse(@user.id.to_s)
     encoded_auth_token = payload(user_id)
-    #ActiveSupport::JSON.decode(encoded_auth_token)
   end
 
   private
@@ -40,5 +39,11 @@ class ApplicationController < ActionController::Base
       auth_token: JsonWebToken.encode({ user_id: user_id })
       #user: {email: email}
     }
+  end
+
+  def self.decode(token)
+    return HashWithIndifferentAccess.new(JWT.decode(token, Rails.application.secrets.secret_key_base)[0])
+  rescue
+    nil
   end
 end
