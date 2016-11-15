@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  respond_to :html, :json
   ## TODO: should be set to something including 'null'
   #protect_from_forgery with: :exception
   
@@ -27,5 +28,20 @@ class ApplicationController < ActionController::Base
 
   def user_id_in_token?
     http_token && auth_token && auth_token[:user_id].to_i
+  end
+
+  def authenticate_user()
+    user_id = JSON.parse(@user.id.to_s)
+    encoded_auth_token = payload(user_id)
+    #json: ActiveSupport::JSON.decode(encoded_auth_token)
+  end
+
+  private
+  def payload(user_id)
+    return nil unless user_id 
+    {
+      auth_token: JsonWebToken.encode({ user_id: user_id })
+      #user: {email: email}
+    }
   end
 end

@@ -13,6 +13,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Flyover login link",       email.subject
   end
 
+  test "set JWT token" do
+    x = post users_url, params: { user: {id: 1, email: "rubyte@protonmail.com"} }
+    puts x.inspect
+    debugger
+  end
   #test "should get new" do
     #get users_new_url
     #assert_response :success
