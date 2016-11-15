@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  respond_to :html, :json
 
   def new
     @user = User.new
@@ -9,11 +8,11 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     
     if @user.save
-      authenticate_user 
-
+      token = authenticate_user()
+      UserMailer.email_token(@user.email, token[:auth_token]).deliver
+      
       #render json: { data: {email: @user.email, user_id: @user.id} }
       #redirect_to user_auth_path(@user, format: :json)
-        #UserMailer.email_token(@user.email).deliver
         #format.html { redirect_to home_path, notice: 'Check venligst din email'  }
         #format.json { render json: @user.email }
     else 

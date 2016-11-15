@@ -3,8 +3,9 @@
 ##
 class UserMailer < ApplicationMailer
 
-  def email_token(email)
-    @url  = "http://localhost:8080/user/TESTURL"
+  def email_token(email, token)
+    @url  = "http://localhost:8080/user/#{token}"
+    puts @url.inspect + "<-- URL"
       mail(
         to: email, 
         subject: "Flyover login link"

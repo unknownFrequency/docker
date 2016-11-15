@@ -1,7 +1,5 @@
 class ApplicationController < ActionController::Base
-  respond_to :html, :json
-  ## TODO: should be set to something including 'null'
-  #protect_from_forgery with: :exception
+  protect_from_forgery with: :null_session
   
   protected
   #This is an before_action being called from home_view
@@ -33,7 +31,7 @@ class ApplicationController < ActionController::Base
   def authenticate_user()
     user_id = JSON.parse(@user.id.to_s)
     encoded_auth_token = payload(user_id)
-    #json: ActiveSupport::JSON.decode(encoded_auth_token)
+    #ActiveSupport::JSON.decode(encoded_auth_token)
   end
 
   private
