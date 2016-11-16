@@ -17,6 +17,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not ApplicationController::decode(token)
   end
 
+  test "Using token to authenticate" do
+    ## Assert response to be 401 Unauthorized
+    assert_equal (get "/home"), 401
+    request.headers['Authorization'] = "Bearer #{@parsed_response['token']}"
+    assert_response (get "/home"), :success
+  end
 
   test "submitting email form should send an email" do
     assert_difference "ActionMailer::Base.deliveries.size", +1 do 
@@ -37,10 +43,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "A decoded token should return user_id equal to current users id" do
     decoded_token_id = ApplicationController::decode(@parsed_response['token'])
     assert_equal decoded_token_id['user_id'], @parsed_response['user_id']
-  end
-
-  test "Using token to authenticate" do
-    get '/users/1/token' , params: {token: "tokentokentoken"}
   end
 
   test "should get new" do
