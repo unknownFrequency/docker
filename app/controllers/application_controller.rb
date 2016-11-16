@@ -8,19 +8,18 @@ class ApplicationController < ActionController::Base
       render json: { errors: ['Her skal du ikke være!!'] }, status: :unauthorized
     end
     #request.headers['Authorization'] = @user.auth_token
-    #rescue JWT::VerificationError, JWT::DecodeError
+    rescue JWT::VerificationError, JWT::DecodeError
   end
 
   private
   def http_token
     @http_token ||= if request.headers['Authorization'].present?
       request.headers['Authorization'].split(' ').last
-      render json: { message: ['http_token sat!']  }
     end
   end
 
   def auth_token
-    @auth_token ||= JsonWebToken.decode(http_token)
+    @auth_token ||= decode(http_token)
   end
 
   def user_id_in_token?
@@ -36,8 +35,8 @@ class ApplicationController < ActionController::Base
   def payload(user_id)
     return nil unless user_id 
     {
+      #TODO: Add expiring to token eg. 1.month.from_now
       auth_token: JsonWebToken.encode({ user_id: user_id })
-      #user: {email: email}
     }
   end
 
@@ -45,5 +44,9 @@ class ApplicationController < ActionController::Base
     return HashWithIndifferentAccess.new(JWT.decode(token, Rails.application.secrets.secret_key_base)[0])
   rescue
     nil
+  end
+
+  def self.encode(payload)
+    JWT.encode(payload, Rails.application.secrets.secret_key_base)
   end
 end

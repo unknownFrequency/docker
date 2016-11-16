@@ -1,5 +1,15 @@
 class UsersController < ApplicationController
 
+  def token
+    url     = request.original_url
+    puts url.inspect
+    debugger
+    uri     = URI.parse(url)
+    #@params = CGI.parse(uri.query)
+    render json: @params
+  end
+
+
   ## GET
   def new
     @user = User.new
@@ -7,7 +17,6 @@ class UsersController < ApplicationController
 
   ## POST
   def create
-
     @user = User.new(user_params)
     if @user.save
       @token = authenticate_user()
@@ -21,11 +30,6 @@ class UsersController < ApplicationController
       #rescue JSON::ParserError, TypeError => e
           #puts e
       #end
-
-      #render json: { data: {email: @user.email, user_id: @user.id} }
-      #redirect_to user_auth_path(@user, format: :json)
-        #format.html { redirect_to home_path, notice: 'Check venligst din email'  }
-        #format.json { render json: @user.email }
     else 
       puts @user.errors.inspect
     end

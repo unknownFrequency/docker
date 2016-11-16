@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'home#index'
+  post 'auth_user' => 'application#authenticate_request!'
+  post '/users/token', to: 'users#token'
   get 'home'       => 'home#index'
   resources :users
-  #match "auth_user" => "users#new", as: :auth_user, via: [:get, :post]
 end
