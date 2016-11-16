@@ -3,10 +3,25 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
 
   setup do
-    params = { "user": {email: "testfgd@dfggh.dk", address: "valid add 1", username: "uniqName"} }
-    post users_url, params: params
+    @params = { user: {email: "testfgd@dfggh.dk", address: "valid add 1", username: "uniqName"} }
+    ## This is a HTTP request
+    post users_url, params: @params
+
     @parsed_response = JSON.parse(response.body)
     assert_equal @parsed_response['status'], "Token sendt"
+  end
+
+  test "JSON request can create user" do
+    url          = 'http://localhost:8080/users'
+    uri          = URI::parse(url)
+    http         = Net::HTTP.new(uri.host, uri.port)
+
+    request      = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+    request.body = @params.to_json
+    response     = http.request(request) 
+    #response = JSON.parse(response.body)
+    puts response.inspect
+    debugger
   end
 
   test "token should expire 2 min" do
@@ -25,8 +40,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should set Auth header with valid token from url" do
+    ## Sends request to UsersController#token method
     url = "http://localhost:8080/users/token/token?#{@parsed_response['token']}"
     assert_response (get url), :success
+      #assert_includes request.headers['Authorization'],
+    #debugger
   end
 
   test "submitting email form should send an email" do

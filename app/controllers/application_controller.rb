@@ -5,12 +5,16 @@ class ApplicationController < ActionController::Base
   #This is an before_action being called from home_view
   def authenticate_request! 
     unless user_id_in_token?
-      render json: { errors: ['Her skal du ikke være!!'] }, status: :unauthorized
+      render json: { errors: 'Her skal du ikke være!!' }, status: :unauthorized
+    else
+      render json: { message: "Du er inde i varmen!" }, status: :authorized
     end
 
-
-    #request.headers['Authorization'] = @user.auth_token
     rescue JWT::VerificationError, JWT::DecodeError
+  end
+
+  def user_id_in_token?
+    http_token && auth_token && auth_token[:user_id].to_i
   end
 
   private
@@ -22,10 +26,6 @@ class ApplicationController < ActionController::Base
 
   def auth_token
     @auth_token ||= decode(http_token)
-  end
-
-  def user_id_in_token?
-    http_token && auth_token && auth_token[:user_id].to_i
   end
 
   def authenticate_user()
