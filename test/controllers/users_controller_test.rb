@@ -9,6 +9,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal @parsed_response['status'], "Token sendt"
   end
 
+  test "token should expire 2 min" do
+    ## expires 2 min from now
+    token = ApplicationController::encode({ :id => 22 }, Time.now.to_i + 120)
+    ## expire 2 min ago and should be invalid/expired
+    token = ApplicationController::encode({ :id => 22 }, Time.now.to_i - 120)
+    assert_not ApplicationController::decode(token)
+  end
+
+
   test "submitting email form should send an email" do
     assert_difference "ActionMailer::Base.deliveries.size", +1 do 
       post users_url, params: { user: {email: "rubyte@protonmail.com", address: "Gl. Aalborgvej 16"} }
@@ -31,7 +40,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "Using token to authenticate" do
-    post '/users/token' , params: {token: "tokentokentoken"}
+    get '/users/1/token' , params: {token: "tokentokentoken"}
   end
 
   test "should get new" do

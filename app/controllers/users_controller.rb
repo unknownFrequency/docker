@@ -1,12 +1,14 @@
 class UsersController < ApplicationController
 
   def token
-    url     = request.original_url
-    puts url.inspect
-    debugger
-    uri     = URI.parse(url)
-    #@params = CGI.parse(uri.query)
+    url = request.original_url
+    uri = URI::parse(url)
+    @params = CGI::parse(uri.query)
+    puts @params.inspect
     render json: @params
+
+
+    #id = uri.path.split('/')[4]
   end
 
 
@@ -17,6 +19,10 @@ class UsersController < ApplicationController
 
   ## POST
   def create
+    #respond_with User.create(email: params[:user][:email])
+    #puts "Req.format: " + request.format.inspect
+    #puts "Req.cont_type: " + request.content_type.inspect
+
     @user = User.new(user_params)
     if @user.save
       @token = authenticate_user()
