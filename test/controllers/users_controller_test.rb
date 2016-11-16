@@ -11,9 +11,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "token should expire 2 min" do
     ## expires 2 min from now
-    token = ApplicationController::encode({ :id => 22 }, Time.now.to_i + 120)
+    token = ApplicationController::encode({ id: 22 }, Time.now.to_i + 120)
     ## expire 2 min ago and should be invalid/expired
-    token = ApplicationController::encode({ :id => 22 }, Time.now.to_i - 120)
+    token = ApplicationController::encode({ id: 22 }, Time.now.to_i - 120)
     assert_not ApplicationController::decode(token)
   end
 
@@ -22,6 +22,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal (get "/home"), 401
     request.headers['Authorization'] = "Bearer #{@parsed_response['token']}"
     assert_response (get "/home"), :success
+  end
+
+  test "should set Auth header with valid token from url" do
+    url = "http://localhost:8080/users/token/token?#{@parsed_response['token']}"
+    assert_response (get url), :success
   end
 
   test "submitting email form should send an email" do

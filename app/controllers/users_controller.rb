@@ -3,12 +3,9 @@ class UsersController < ApplicationController
   def token
     url = request.original_url
     uri = URI::parse(url)
-    @params = CGI::parse(uri.query)
-    puts @params.inspect
-    render json: @params
-
-
-    #id = uri.path.split('/')[4]
+    url_params = CGI::parse(uri.query)
+    request.headers['Authorization'] = url_params.first
+    redirect_to '/home'
   end
 
 
