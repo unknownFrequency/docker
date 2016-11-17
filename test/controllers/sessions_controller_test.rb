@@ -23,8 +23,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @parsed_response['status'], "Token sendt"
   end
 
-  #test "following URL with token included should create session for user" do
-    #uri = URI::parse("http://localhost:8080/token/token?#{@token}")
+  test "following URL with token included should create session for user" do
+    #uri = URI::parse("http://localhost:8080/sessions/token?#{@token}")
     #url_params = CGI::parse(uri.query)
     #assert_equal url_params.first[0], @token
     ### User is now authenticated
@@ -36,7 +36,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     #assert_response :success
     #assert_not response.body.empty?
 
-  #end
+  end
 
   #test "should get new" do
     #get send_login

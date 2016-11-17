@@ -1,7 +1,7 @@
 ##
 ## This is like the Controller
 ##
-class UserMailer < ApplicationMailer
+class TokenMailer < ApplicationMailer
 
   def email_token(email, token)
     @url  = "http://localhost:8080/token/?token=#{token}"

@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
 
   def create
     @token = create_token(params[:data][:email])
-    UserMailer.email_token(params[:data][:email], @token[:auth_token]).deliver
+    TokenMailer.email_token(params[:data][:email], @token[:auth_token]).deliver
     @json_msg = { status: "Token sendt", token: @token[:auth_token] }
     render json: @json_msg
   end

@@ -4,9 +4,8 @@ Rails.application.routes.draw do
   get 'home'       => 'home#index'
 
   resources :users
-  get '/users/token/:token' => 'users#token'
 
   get 'send_login', to: 'sessions#new'
   post 'send_login', to: 'sessions#create'
-
+  get '/sessions/token/:token' => 'sessions#token'
 end
