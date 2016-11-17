@@ -28,17 +28,16 @@ class ApplicationController < ActionController::Base
     @auth_token ||= decode(http_token)
   end
 
-  def authenticate_user()
-    user_id = JSON.parse(@user.id.to_s)
-    encoded_auth_token = payload(user_id)
+  def create_token(email) # authenticate_user
+    encoded_auth_token = payload(email)
   end
 
   private
-  def payload(user_id)
-    return nil unless user_id 
+  def payload(email)
+    return nil unless email 
     {
       #TODO: Add expiring to token eg. 1.month.from_now
-      auth_token: JsonWebToken.encode({ user_id: user_id })
+      auth_token: JsonWebToken.encode({ email: email })
     }
   end
 

@@ -5,12 +5,8 @@ Rails.application.routes.draw do
 
   resources :users
   get '/users/token/:token' => 'users#token'
-  #get '/users/token/:token' => 'users#token'
 
-  namespace :api do
-    namespace :v1 do
-      resources :users
-    end
-  end
-  #post '/users/token', to: 'users#token'
+  get 'send_login', to: 'sessions#new'
+  post 'send_login', to: 'sessions#create'
+
 end

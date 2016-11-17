@@ -1,0 +1,21 @@
+class SessionsController < ApplicationController
+
+  def token
+    url = request.original_url
+    uri = URI::parse(url)
+    url_params = CGI::parse(uri.query)
+    request.headers['Authorization'] = url_params.first
+    redirect_to root_path
+  end
+
+  def new 
+  end
+
+  def create
+    @token = create_token(params[:data][:email])
+    UserMailer.email_token(params[:data][:email], @token[:auth_token]).deliver
+    @json_msg = { status: "Token sendt", token: @token[:auth_token] }
+    render json: @json_msg
+  end
+
+end
