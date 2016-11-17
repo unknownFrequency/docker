@@ -42,32 +42,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should be denied access without valid token" do
     assert_equal (get root_path, headers: {HTTP_AUTHORIZATION: "Bearer Made.Up.Token"}), 401
+    parsed_response = JSON.parse(response.body)
+    assert_equal parsed_response['errors'], "Her skal du ikke være!"
   end
-
-
-    ### User is now authenticated
-    #get users_path, params: {}, headers: { "AUTHORIZATION": "Bearer #{@token}"  }
-    #@request.headers['Authorization'] = "Bearer #{@token}"
-    #@app_controller.authenticate_request! 
-    ##request.headers['Authorization'] = url_params.first[0]
-    #puts "response = #{response.body}"
-    #assert_response :success
-
-  #test "should get new" do
-    #get send_login
-    #assert_response :success
-  #end
 end
 
-
-
-    #url          = 'http://localhost:8080/users'
-    #uri          = URI::parse(url)
-    #http         = Net::HTTP.new(uri.host, uri.port)
-
-    #request      = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
-    #request.body = @params.to_json
-    #response     = http.request(request) 
-    ##response = JSON.parse(response.body)
-    #puts response.inspect
-    #debugger

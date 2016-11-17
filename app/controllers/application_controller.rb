@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   #This is an before_action being called from home_view
   def authenticate_request! 
     if not email_in_token?
-      render json: { errors: 'Her skal du ikke være!!' }, status: :unauthorized
+      render json: { errors: 'Her skal du ikke være!' }, status: :unauthorized
     else
       render json: { message: "Du er inde i varmen!" }, status: :authorized
     end
