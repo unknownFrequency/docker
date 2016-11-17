@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protected
   #This is an before_action being called from home_view
   def authenticate_request! 
-    unless user_id_in_token?
+    if not email_in_token?
       render json: { errors: 'Her skal du ikke være!!' }, status: :unauthorized
     else
       render json: { message: "Du er inde i varmen!" }, status: :authorized
@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
     rescue JWT::VerificationError, JWT::DecodeError
   end
 
-  def user_id_in_token?
-    http_token && auth_token && auth_token[:user_id].to_i
+  def email_in_token?
+    http_token && auth_token
   end
 
   private
@@ -25,7 +25,8 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_token
-    @auth_token ||= decode(http_token)
+    #TODO: Why do I have to call decode like that????
+    @auth_token ||= ApplicationController::decode(http_token)
   end
 
   def create_token(email) # authenticate_user
