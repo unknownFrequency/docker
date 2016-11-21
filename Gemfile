@@ -27,10 +27,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'less-rails'
 gem "sprockets", '3.6.3'
-gem 'react-rails'
 gem 'jwt'
 gem 'rmagick'
 gem 'carrierwave'
-gem 'delayed_job_active_record' #For email 
-gem 'responder'
-gem 'httparty'
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+#gem 'angularjs-rails'

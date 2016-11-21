@@ -1,5 +1,11 @@
 class SessionsController < ApplicationController
 
+  def self.init_session(token)
+    session[:jwt] ||= []
+    session[:jwt] = token
+    puts session[:jwt].inspect
+  end
+
   def token
     url = request.original_url
     uri = URI::parse(url)
@@ -9,6 +15,8 @@ class SessionsController < ApplicationController
   end
 
   def new 
+    puts params.inspect
+    debugger
   end
 
   def create
