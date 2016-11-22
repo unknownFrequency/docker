@@ -5,10 +5,10 @@ var EmailForm = React.createClass({
     var email = this.refs.email.value;
 
     $.ajax({
-      url:  '/api/v1/send_login',
+      url:  '/send_login',
       type: 'POST',
-      data: { email: email },
-      success: (response) => { console.log("Email blev sendt") }
+      data: { data: {email: email} },
+      success: (response) => { "Email blev sendt" }
     })
   },
 
