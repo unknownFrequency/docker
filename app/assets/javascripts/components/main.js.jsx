@@ -1,11 +1,11 @@
 // app/assets/javascripts/components/main.js.jsx
 
 var Main = React.createClass({
-  render() {
+  render: function() {
     return (
       <div>
-        <EmailForm />
+        <h1>Main</h1>
       </div>
-    )
+    );
   }
 });

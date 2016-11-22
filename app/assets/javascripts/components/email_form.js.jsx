@@ -3,7 +3,13 @@
 var EmailForm = React.createClass({
   handleClick() {
     var email = this.refs.email.value;
-    console.log('The name value is ' + name + 'the description value is ' + description);
+
+    $.ajax({
+      url:  '/api/v1/send_login',
+      type: 'POST',
+      data: { email: email },
+      success: (response) => { console.log("Email blev sendt") }
+    })
   },
 
   render() {

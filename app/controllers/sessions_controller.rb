@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
   def self.init_session(token)
     session[:jwt] ||= []
     session[:jwt] = token
-    puts session[:jwt].inspect
   end
 
   def token
