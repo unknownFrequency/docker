@@ -1,11 +1,1 @@
-<h1>Send login til email</h1>
-
-<%= form_for :session, url: send_login_path do |f|  %>
-  <!-- TODO: Render errors -->
-  <% # render 'shared/errors', object: ?? %>
-  <p>
-    <%= f.label :email %>
-    <%= f.text_field :email %>&nbsp;&nbsp;&nbsp;&nbsp;
-    <%= f.submit 'Send login link til email' %>
-  </p>
-<% end %>
+<%= react_component('EmailForm', msg: "Venligst udfyld Email")  %>
