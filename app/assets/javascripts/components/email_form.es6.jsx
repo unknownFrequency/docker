@@ -10,11 +10,11 @@ class EmailForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  // extract to fetch.es6.jsx?
   validate() {
-    let isValid = false;
     var pattern = /[@]+/;
     if(pattern.exec(this.refs.email.value)) {
-        return isValid = true;
+        return true;
     }
   }
 
@@ -28,7 +28,7 @@ class EmailForm extends React.Component {
     const isValid = this.validate();
     if (isValid) {
       post('/send_login', data) // from components/fetch.es6.jsx
-        .then(json=>{
+        .then( json => {
           this.setState({
             message: 'Token genereret og sendt til ' +  this.refs.email.value
           });
