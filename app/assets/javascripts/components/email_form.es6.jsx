@@ -5,20 +5,26 @@ class EmailForm extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = { msg: this.props.msg }
     // So i can use this.props?
+    this.state = {message: "Velkommen"};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault(); // Cancels the event, and the POST action will not occur
 
+
     const data = {
       data: {email: this.refs.email.value}
     };
 
-    post('/send_login', data); // from components/fetch.es6.jsx
+
+    post('/send_login', data) // from components/fetch.es6.jsx
+      .then(json=>{
+        this.setState({
+          message: 'Token genereret og sendt til ' +  this.refs.email.value
+        });
+      });
   }
 
   render() {
@@ -29,15 +35,12 @@ class EmailForm extends React.Component {
 
     return (
       <form>
-        <div>
-          <input placeholder="Indtast email" ref="email" />
-        </div>
-        {button}
+        <h1><Message message={this.state.message} /></h1>
+        <div><input placeholder="Indtast email" ref="email" /></div>
+        <br />
+        <div>{button}</div>
       </form>
     )
   }
 };
 
-EmailForm.propTypes = {
-  //email: React.PropTypes.string.isRequired
-};

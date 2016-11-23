@@ -8,5 +8,6 @@ Bundler.require(*Rails.groups)
 
 module Myapp
   class Application < Rails::Application
+    Rails.application.config.assets.precompile += %w( components.js )
   end
 end

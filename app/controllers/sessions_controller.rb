@@ -11,7 +11,6 @@ class SessionsController < ApplicationController
     uri = URI::parse(url)
     url_params = CGI::parse(uri.query)
     request.headers['Authorization'] = url_params.first
-    redirect_to root_path
   end
 
   def new 
@@ -21,7 +20,7 @@ class SessionsController < ApplicationController
   def create
     token = params[:data][:email].present? ? create_token(params[:data][:email]) : nil
     if token && TokenMailer.email_token(params[:data][:email], token[:auth_token]).deliver
-      render json: { status: "Token sendt", token: token[:auth_token]  }
+      render json: { status: "Token sendt", token: token[:auth_token] }
     else 
       render json: { status: "Noget gik galt..." }
     end
