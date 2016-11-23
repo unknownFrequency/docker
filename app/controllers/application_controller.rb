@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  #protect_from_forgery with: :null_session
+  protect_from_forgery with: :exception
 
   def init_session(token)
     session[:jwt] ||= []
@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   def authenticate_request! 
     if not email_in_token?
       render json: { errors: 'Her skal du ikke være!' }, status: :unauthorized
+      ## TODO: Rescure when err
       #rescue JWT::VerificationError, JWT::DecodeError
     else
       init_session(@encoded_token) if not session[:jwt]

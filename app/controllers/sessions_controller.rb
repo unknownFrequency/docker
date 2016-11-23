@@ -19,6 +19,8 @@ class SessionsController < ApplicationController
   end
 
   def create
+    puts params.inspect
+    debugger
     @token = create_token(params[:data][:email])
     TokenMailer.email_token(params[:data][:email], @token[:auth_token]).deliver
     @json_msg = { status: "Token sendt", token: @token[:auth_token] }

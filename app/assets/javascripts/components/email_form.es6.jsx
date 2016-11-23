@@ -11,19 +11,15 @@ class EmailForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit() {
+    const data = {
+      data: {email: this.refs.email.value}
+    };
 
-    $.ajax({
-      url:  '/send_login',
-      type: 'POST',
-      data: { data: {email: this.refs.email.value} },
-      success: (response) => { "Email blev sendt" }
-    })
+    post('/send_login', data); // from components/fetch.es6.jsx
   }
 
   render() {
-
     const button =
       <button type="submit" onClick={this.handleSubmit}>
           Email mit login link
@@ -32,10 +28,7 @@ class EmailForm extends React.Component {
     return (
       <form>
         <div>
-          <h3> {this.state.msg} </h3>
-          <input
-            placeholder="Indtast email"
-            ref="email" />
+          <input placeholder="Indtast email" ref="email" />
         </div>
         {button}
       </form>

@@ -32,3 +32,8 @@ gem 'rmagick'
 gem 'carrierwave'
 gem 'react-rails'
 gem 'responder'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-es6-promise'
+  gem 'rails-assets-fetch'
+end
