@@ -1,9 +1,9 @@
 function _fetch(url, options) {
   return fetch(url, options)
-    .then(response=>{
+    .then( response => {
       return response.json();
     })
-    .catch(err=>{
+    .catch( err => {
       console.log('Noget gik galt med din forspørgelse');
       console.log(err);
     });

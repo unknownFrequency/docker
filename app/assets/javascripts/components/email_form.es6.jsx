@@ -10,21 +10,34 @@ class EmailForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  validate() {
+    let isValid = false;
+    var pattern = /[@]+/;
+    if(pattern.exec(this.refs.email.value)) {
+        return isValid = true;
+    }
+  }
+
   handleSubmit(e) {
     e.preventDefault(); // Cancels the event, and the POST action will not occur
-
 
     const data = {
       data: {email: this.refs.email.value}
     };
 
-
-    post('/send_login', data) // from components/fetch.es6.jsx
-      .then(json=>{
-        this.setState({
-          message: 'Token genereret og sendt til ' +  this.refs.email.value
+    const isValid = this.validate();
+    if (isValid) {
+      post('/send_login', data) // from components/fetch.es6.jsx
+        .then(json=>{
+          this.setState({
+            message: 'Token genereret og sendt til ' +  this.refs.email.value
+          });
         });
+    } else {
+      this.setState({
+        message: this.refs.email.value + ' er ikke korrekt format'
       });
+    }
   }
 
   render() {
