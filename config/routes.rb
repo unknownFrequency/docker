@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   get 'home/index', to: 'home#index'
 
   post 'auth_user',  to: 'application#authenticate_request!'
+  resources :sessions
   get  'send_login', to: 'sessions#new'
   post 'send_login', to: 'sessions#create'
-  get '/sessions/token/:token', to: 'sessions#token'
+  get  '/sessions/token/:token', to: 'sessions#token'
 end

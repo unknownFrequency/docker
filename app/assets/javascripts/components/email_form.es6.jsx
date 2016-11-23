@@ -11,7 +11,9 @@ class EmailForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault(); // Cancels the event, and the POST action will not occur
+
     const data = {
       data: {email: this.refs.email.value}
     };

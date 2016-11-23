@@ -34,6 +34,11 @@ function post(url, data, options) {
 }
 
 
+//function patch(url, data, options) {
+  //const _options = Object.assign({}, options, {method: 'PATCH'});
+  //return post(url, data, options)
+//}
+
     //$.ajax({
       //url:  '/send_login',
       //type: 'POST',

@@ -31,7 +31,7 @@ gem 'jwt'
 gem 'rmagick'
 gem 'carrierwave'
 gem 'react-rails'
-gem 'responder'
+gem 'responders'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-es6-promise'
