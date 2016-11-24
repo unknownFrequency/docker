@@ -30,7 +30,7 @@ class EmailForm extends React.Component {
       post('/send_login', data) // from components/fetch.es6.jsx
         .then( json => {
           this.setState({
-            message: 'Token genereret og sendt til ' +  this.refs.email.value
+            message: `Token genereret og sendt til  ${this.refs.email.value}`
           });
         });
     } else {
