@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Navn:</strong>
+  <%= @gallery.name %>
+</p>
+<p>
+  <strong>Beskrivelse:</strong>
+  <%= @gallery.description %>
+</p>
+
+<% @gallery_images.each do |p| %>
+  <%= image_tag p.image_url %>
+  <%= link_to "Rediger", edit_gallery_image_path(p) %>
+<% end %>
+<%= link_to 'Edit', edit_gallery_path(@gallery) %> |
+<%= link_to 'Back', galleries_path %>

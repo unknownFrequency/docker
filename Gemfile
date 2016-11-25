@@ -32,6 +32,7 @@ gem 'rmagick'
 gem 'carrierwave'
 gem 'react-rails'
 gem 'responders'
+gem 'cocoon'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-es6-promise'
