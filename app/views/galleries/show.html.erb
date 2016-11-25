@@ -10,8 +10,7 @@
 </p>
 
 <% @gallery_images.each do |p| %>
-  <%= image_tag p.image_url %>
+  <%= image_tag p.image_url %><br />
   <%= link_to "Rediger", edit_gallery_image_path(p) %>
 <% end %>
-<%= link_to 'Edit', edit_gallery_path(@gallery) %> |
-<%= link_to 'Back', galleries_path %>
+<%= link_to 'Tilbage', galleries_path %>

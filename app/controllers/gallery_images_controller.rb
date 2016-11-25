@@ -33,7 +33,7 @@ class GalleryImagesController < ApplicationController
   # PATCH/PUT /gallery_images/1
   def update
     if @gallery_image.update(gallery_image_params)
-      redirect_to @gallery_image, notice: 'Gallery image was successfully updated.'
+      redirect_to gallery_path(@gallery_image.gallery_id), notice: 'Gallery billedet blev opdateret.'
     else
       render :edit
     end
