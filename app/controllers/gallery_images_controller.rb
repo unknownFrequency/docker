@@ -22,10 +22,7 @@ class GalleryImagesController < ApplicationController
   # POST /gallery_images
   def create
     @gallery_image = GalleryImage.new(gallery_image_params)
-
-    if @gallery_image.save
-      redirect_to @gallery_image, notice: 'Gallery image was successfully created.'
-    else
+    unless @gallery_image.save
       render :new
     end
   end

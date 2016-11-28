@@ -19,6 +19,8 @@ services:
   web:
     build: .
     command: ./scripts/start.sh
+    tty: true
+    stdin_open: true
     volumes:
       - .:/app
       - /app/log

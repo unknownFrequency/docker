@@ -13,6 +13,7 @@ class GalleriesController < ApplicationController
 
   # GET /galleries/new
   def new
+    render component: 'ImageForm', tag: 'div'
     @gallery = Gallery.new
     @gallery_images = @gallery.gallery_images.build
   end
@@ -24,10 +25,18 @@ class GalleriesController < ApplicationController
   # POST /galleries
   def create
     @gallery = Gallery.new(gallery_params)
-
+    #images = { images: {} }
+      #params[:gallery_images][:image].each do |img|
+        #images[:images] = img
+      #end
+    #end
     if @gallery.save
-      params[:gallery_images][:image].each do |img|
-        @gallery_images = @gallery.gallery_images.create!(image: img)
+      @gallery_images = @gallery.gallery_images.build
+      if params[:gallery_images][:image].count > 1 
+        params[:gallery_images][:image].each do |image|
+          @gallery_images = @gallery.gallery_images.new(image: image)
+          @gallery_images.save() #validate: false
+        end
       end
       redirect_to @gallery, notice: 'Gallery was successfully created.'
     else
