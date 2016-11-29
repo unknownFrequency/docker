@@ -25,20 +25,20 @@ class GalleriesController < ApplicationController
   # POST /galleries
   def create
     @gallery = Gallery.new(gallery_params)
-    #images = { images: {} }
-      #params[:gallery_images][:image].each do |img|
-        #images[:images] = img
-      #end
-    #end
+
     if @gallery.save
-      @gallery_images = @gallery.gallery_images.build
-      if params[:gallery_images][:image].count > 1 
-        params[:gallery_images][:image].each do |image|
-          @gallery_images = @gallery.gallery_images.new(image: image)
-          @gallery_images.save() #validate: false
+      ## If multiple images have been added
+      if params[:gallery_images]
+        if params[:gallery_images][:image].count > 1 
+          params[:gallery_images][:image].each do |image|
+            @gallery.gallery_images.create!(image: image)
+          end
+        elsif params[:gallery_images][:image].count == 1
+          @gallery.gallery_images.create!(image: params[:gallery_images][:image])
         end
       end
-      redirect_to @gallery, notice: 'Gallery was successfully created.'
+
+      redirect_to @gallery, notice: 'Galleriet er gemt'
     else
       render :new
     end
@@ -47,7 +47,7 @@ class GalleriesController < ApplicationController
   # PATCH/PUT /galleries/1
   def update
     if @gallery.update(gallery_params)
-      redirect_to @gallery, notice: 'Gallery was successfully updated.'
+      redirect_to @gallery, notice: 'Galleriet blev opdateret'
     else
       render :edit
     end

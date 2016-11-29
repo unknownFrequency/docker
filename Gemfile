@@ -28,7 +28,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'less-rails'
 gem "sprockets", '3.6.3'
 gem 'jwt'
-gem 'rmagick'
+gem 'mini_magick'
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 gem 'react-rails'
 gem 'responders'

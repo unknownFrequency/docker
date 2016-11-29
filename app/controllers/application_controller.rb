@@ -35,20 +35,11 @@ class ApplicationController < ActionController::Base
 
   def auth_token
     #TODO: Why do I have to call decode like that????
-    eauth_token ||= ApplicationController::decode(encoded_token)
+    auth_token ||= ApplicationController::decode(encoded_token)
   end
 
   def create_token(email) # authenticate_user
     payload(email)
-  end
-
-  private
-  def payload(email)
-    return nil unless email 
-    {
-      #TODO: Add expiring to token eg. 1.month.from_now
-      auth_token: JsonWebToken.encode({ email: email })
-    }
   end
 
   def self.decode(token)
@@ -61,4 +52,14 @@ class ApplicationController < ActionController::Base
     payload[:exp] = exp
     JWT.encode(payload, Rails.application.secrets.secret_key_base)
   end
+
+  private
+  def payload(email)
+    return nil unless email 
+    {
+      #TODO: Add expiring to token eg. 1.month.from_now
+      auth_token: ApplicationController::encode({ email: email })
+    }
+  end
+
 end
