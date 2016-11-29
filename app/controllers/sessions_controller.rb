@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  #respond_to :html, :json
-
   def self.init_session(token)
     session[:jwt] ||= []
     session[:jwt] = token

@@ -29,6 +29,20 @@ class GalleriesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to gallery_url(Gallery.last)
   end
 
+  test "should create gallery with gallery_images" do
+    assert_difference('Gallery.count')  do
+      post galleries_url, params: { 
+        gallery: { 
+          description: @gallery.description, 
+          name: @gallery.name 
+        } }
+    end
+
+    @gallery.gallery_images.create!(image: 'default.png')
+    assert_response 302 
+    assert_redirected_to gallery_url(Gallery.last)
+  end
+
   test "should show gallery" do
     get gallery_url(@gallery.id)
     assert_response :success
@@ -40,10 +54,12 @@ class GalleriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update gallery" do
-    patch gallery_url(@gallery), params: { gallery: 
-                                           { id: @gallery.id,
-                                             description: @gallery.description, 
-                                             name: @gallery.name } }
+    patch gallery_url(@gallery), params: { 
+      gallery: { 
+        id: @gallery.id,
+        description: @gallery.description, 
+        name: @gallery.name } 
+    }
     assert_redirected_to gallery_url(@gallery)
   end
 
