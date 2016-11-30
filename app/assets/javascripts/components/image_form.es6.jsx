@@ -1,15 +1,6 @@
 class ImageForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      files: [],
-      imagePreviewUrls: []
-    };
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log('Uploader...', this.state.file);
   }
 
   handleImageChange(e) {
@@ -18,15 +9,19 @@ class ImageForm extends React.Component {
     let files = e.target.files;
     let output = document.getElementById("result");
 
-    for (var i = 0; i < files.length; i++) {
-      var file = files[i];
+    for (let i = 0; i < files.length; i++) {
+      let file = files[i];
       if (!file.type.match('image')) continue;
+      let picReader = new FileReader();
+      picReader.addEventListener("load", (event) => {
+        image = new Image();
+        image.src = picReader.result
 
-      var picReader = new FileReader();
-      picReader.addEventListener("load", function (event) {
-        var picFile = event.target;
-        var div = document.createElement("div");
-        div.innerHTML = "<img class='thumbnail' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
+        // TODO: Sets width+height = 0 when clicking "Browse" more than once
+        var size = scaleSize(100,100, image.width, image.height) // method from: image_handling.es6.js
+        let picFile = event.target;
+        let div = document.createElement("div");
+        div.innerHTML = "<img class='thumbnail' width='" + size.width + "' height='" + size.height + "' src='" + picFile.result + "' />";
         output.insertBefore(div, null);
       });
       //Read the image
@@ -34,27 +29,10 @@ class ImageForm extends React.Component {
     }
   }
 
-    //reader.onloadend = () => {
-      //this.setState({
-        //files: files,
-        //imagePreviewUrl: reader.result
-      //});
-    //}
-    //reader.readAsDataURL(files)
-
   render() {
-    let {imagePreviewUrl} = this.state;
-    let $imagePreview = null;
-    if (imagePreviewUrl) {
-      $imagePreview = (<img src={imagePreviewUrl} />);
-    } else {
-      $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
-    }
 
     return (
       <div>
-        <div className="imgPreview">
-        </div>
         <output id="result" />
 
         <form className="new_gallery" id="new_gallery" encType="multipart/form-data" action="/galleries" acceptCharset="UTF-8" method="post">
