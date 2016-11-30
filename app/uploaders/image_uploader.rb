@@ -7,12 +7,12 @@ class ImageUploader < CarrierWave::Uploader::Base
   # storage :fog
 
   def store_dir
-    "#{Rails.root}/assets/images/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
    def default_url
-     "#{Rails.root}/assets/images/" + [version_name, "default.png"].compact.join('_')
+     "uploads/" + [version_name, "default.png"].compact.join('_')
    end
 
   # Process files as they are uploaded:

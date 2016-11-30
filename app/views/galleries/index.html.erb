@@ -16,6 +16,13 @@
       <tr>
         <td><%= gallery.name %></td>
         <td><%= gallery.description %></td>
+        <td> 
+          <% if gallery.gallery_images %>
+            <% gallery.gallery_images.each do |img| %>
+              <%= image_tag img.image.thumb.url %>
+            <% end %>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', gallery %></td>
         <td><%= link_to 'Edit', edit_gallery_path(gallery) %></td>
         <td><%= link_to 'Destroy', gallery, method: :delete, data: { confirm: 'Are you sure?' } %></td>

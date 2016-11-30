@@ -13,7 +13,9 @@ class GalleriesController < ApplicationController
 
   # GET /galleries/new
   def new
-    render component: 'ImageForm', tag: 'div'
+    render component: 'ImageForm', 
+      tag: 'div', 
+      authenticity_token: form_authenticity_token
     @gallery = Gallery.new
     @gallery_images = @gallery.gallery_images.build
   end

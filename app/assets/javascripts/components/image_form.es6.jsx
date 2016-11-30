@@ -1,58 +1,65 @@
 class ImageForm extends React.Component {
-  //constructor(props) {
-    //super(props);
-    //this.state = {
-      //message: "Velkommen",
-      //file:    ''
-    //};
-    //this.handleSubmit = this.handleSubmit.bind(this);
-  //}
+  constructor(props) {
+    super(props);
+    this.state = {file: '', imagePreviewUrl: ''};
+  }
 
-  //handleSubmit(e) {
-    //e.preventDefault(); // Cancels the event, and the POST action will not occur
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log('Uploader...', this.state.file);
+  }
 
-    //let data = new FormData();
-    //data.append('name', this.refs.name.value);
-    //data.append('description', this.refs.description.value);
-    //data.append('image', this.refs.image.files[0]);
+  handleImageChange(e) {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
 
-    //fetch('/gallery', {
-        //method: 'POST',
-        //body: data,
-        //headers: {
-          //'X-CSRF-Token':  document.getElementsByName("csrf-token")[0].content,
-          ////'Accept': 'application/json',
-        //},
-        //credentials: 'same-origin' //for csrf-token
-    //});
-  //}
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    }
+    reader.readAsDataURL(file)
+  }
 
   render() {
-    //const button =
-      //<button type="submit" onClick={this.handleSubmit}>
-        //Upload
-      //</button>;
+    let {imagePreviewUrl} = this.state;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (<img src={imagePreviewUrl} />);
+    } else {
+      $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
+    }
 
     return (
-      <form class="new_gallery" id="new_gallery" encType="multipart/form-data" action="/galleries" acceptCharset="UTF-8" method="post">
-      <input name="utf8" type="hidden" value="&#x2713;" />
-      <input type="hidden" name="authenticity_token" value="DCMwHHjARRa1p+tCf8dg2+SIq3Jp8yEAhZtmuQc8nOy0auZdY/pxlTlp1rla0AzL5z3pzsUOZpkfcYWqo/EK5g==" />
-        <div class="field">
-          <label for="gallery_name">Navn</label>
-          <input type="text" name="gallery[name]" id="gallery_name" />
+      <div>
+        <div className="imgPreview">
+          {$imagePreview}
         </div>
-        <div class="field">
-          <label for="gallery_description">Beskerivelse</label>
-          <textarea name="gallery[description]" id="gallery_description"></textarea>
-        </div>
-        <div class="field">
-          <label for="gallery_gallery_images_attributes_0_image">Billeder</label>
-          <input multiple="multiple" name="gallery_images[image][]" type="file" id="gallery_gallery_images_attributes_0_image" />
-        </div>
-        <div class="actions">
-          <input type="submit" name="commit" value="Create Gallery" data-disable-with="Create Gallery" />
-        </div>
-      </form>
+
+        <form className="new_gallery" id="new_gallery" encType="multipart/form-data" action="/galleries" acceptCharset="UTF-8" method="post">
+          <input name="utf8" type="hidden" value="&#x2713;" />
+          <input type="hidden" name="authenticity_token" value={this.props.authenticity_token} />
+
+          <div className="field">
+            <label htmlFor="gallery_name">Navn</label>
+            <input type="text" name="gallery[name]" id="gallery_name" />
+          </div>
+          <div className="field">
+            <label htmlFor="gallery_description">Beskerivelse</label>
+            <textarea name="gallery[description]" id="gallery_description"></textarea>
+          </div>
+          <div className="field">
+            <label htmlFor="gallery_gallery_images_attributes_0_image">Billeder</label>
+            <input onChange={(e)=>this.handleImageChange(e)} multiple="multiple"
+              name="gallery_images[image][]" type="file" id="gallery_gallery_images_attributes_0_image" />
+          </div>
+          <div className="actions">
+            <input type="submit" name="commit" value="Create Gallery" data-disable-with="Create Gallery" />
+          </div>
+        </form>
+      </div>
     )
   }
 };
