@@ -1,7 +1,10 @@
 class ImageForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {file: '', imagePreviewUrl: ''};
+    this.state = {
+      files: [],
+      imagePreviewUrls: []
+    };
   }
 
   handleSubmit(e) {
@@ -12,16 +15,32 @@ class ImageForm extends React.Component {
   handleImageChange(e) {
     e.preventDefault();
     let reader = new FileReader();
-    let file = e.target.files[0];
+    let files = e.target.files;
+    let output = document.getElementById("result");
 
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+      if (!file.type.match('image')) continue;
+
+      var picReader = new FileReader();
+      picReader.addEventListener("load", function (event) {
+        var picFile = event.target;
+        var div = document.createElement("div");
+        div.innerHTML = "<img class='thumbnail' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
+        output.insertBefore(div, null);
       });
+      //Read the image
+      picReader.readAsDataURL(file);
     }
-    reader.readAsDataURL(file)
   }
+
+    //reader.onloadend = () => {
+      //this.setState({
+        //files: files,
+        //imagePreviewUrl: reader.result
+      //});
+    //}
+    //reader.readAsDataURL(files)
 
   render() {
     let {imagePreviewUrl} = this.state;
@@ -35,8 +54,8 @@ class ImageForm extends React.Component {
     return (
       <div>
         <div className="imgPreview">
-          {$imagePreview}
         </div>
+        <output id="result" />
 
         <form className="new_gallery" id="new_gallery" encType="multipart/form-data" action="/galleries" acceptCharset="UTF-8" method="post">
           <input name="utf8" type="hidden" value="&#x2713;" />
