@@ -19,15 +19,15 @@ class ApplicationController < ActionController::Base
   end
 
   def session_set?
-    if not session['jwt'].nil? && session['jwt']['auth_token']
+    if session['jwt'] && session['jwt']['auth_token']
       request.headers['Authorization'] = session['jwt']['auth_token']
-    else
-      nil
     end
   end
 
   def email_in_token?
-    session_set? && encoded_token && auth_token
+    if not session_set?
+      encoded_token && auth_token
+    end
   end
 
   ## Use JWT from session if it's present
@@ -53,8 +53,6 @@ class ApplicationController < ActionController::Base
     @encoded_token ||= if request.headers['Authorization'].present?
       #split.last to remove "Bearer "
       request.headers['Authorization'].split(' ').last
-      logger.debug session['jwt']['auth_token'].inspect
-      request.headers['Authorization'] = session['jwt']['auth_token']
     else 
       nil
     end

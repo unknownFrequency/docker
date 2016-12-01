@@ -65,7 +65,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
  test "should set session" do
    get root_path, headers: {HTTP_AUTHORIZATION: "Bearer #{@token}"}
-   assert_equal session[:jwt], @token
+   assert_equal session['jwt'], @token
  end
 
  test "validate session" do 
