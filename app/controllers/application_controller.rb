@@ -28,7 +28,6 @@ class ApplicationController < ActionController::Base
   def auth_token
     #TODO: Why do I have to call decode like that????
     auth_token ||= JsonWebToken.decode(encoded_token)
-    logger.debug "AUTH_TOKEN::::::::::::::::::::::: #{auth_token} ::::::::::::::::::::::"
   end
 
   def create_token(email) # authenticate_user
@@ -50,7 +49,7 @@ class ApplicationController < ActionController::Base
   def payload(email)
     return nil unless email 
     {
-      auth_token: JsonWebTok.encode({ email: email })
+      auth_token: JsonWebToken.encode({ email: email })
     }
   end
 
