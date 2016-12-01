@@ -9,22 +9,25 @@ class ApplicationController < ActionController::Base
   protected
   #This is an before_action being called from home_view
   def authenticate_request! 
-    request.headers['Authorization'] = session['jwt']['auth_token'] ? request.headers['Authorization'] : null
-      
-
     if not email_in_token?
-      render json: { errors: 'Du skal logge ind for at se denne side.', 
-                     session: session['jwt']['auth_token'], headers: request.headers['Authorization'] }, status: :unauthorized
-      ## TODO: Rescure when err
-      #rescue JWT::VerificationError, JWT::DecodeError
+                     #session: session['jwt']['auth_token'], headers: request.headers['Authorization'] }, status: :unauthorized
+      render json: { errors: 'Du skal logge ind for at se denne side.', session: session['jwt'], enc: request.headers['Authorization'] }
     else
       init_session(@encoded_token) if not session['jwt']
       #render json: { message: "Du er inde i varmen!" }, status: :authorized
     end
   end
 
+  def session_set?
+    if not session['jwt'].nil? && session['jwt']['auth_token']
+      request.headers['Authorization'] = session['jwt']['auth_token']
+    else
+      nil
+    end
+  end
+
   def email_in_token?
-    encoded_token && auth_token
+    session_set? && encoded_token && auth_token
   end
 
   ## Use JWT from session if it's present
@@ -50,7 +53,7 @@ class ApplicationController < ActionController::Base
     @encoded_token ||= if request.headers['Authorization'].present?
       #split.last to remove "Bearer "
       request.headers['Authorization'].split(' ').last
-    elsif session['jwt']['auth_token']
+      logger.debug session['jwt']['auth_token'].inspect
       request.headers['Authorization'] = session['jwt']['auth_token']
     else 
       nil

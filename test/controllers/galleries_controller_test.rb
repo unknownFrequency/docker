@@ -9,15 +9,6 @@ class GalleriesControllerTest < ActionDispatch::IntegrationTest
     @gallery_images = @gallery.gallery_images.create!(image: 'default.png')
   end
 
-  test "should get index" do
-    get galleries_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_gallery_url
-    assert_response :unauthorized
-  end
 
   #test "should create gallery" do
     #assert_difference('Gallery.count') do

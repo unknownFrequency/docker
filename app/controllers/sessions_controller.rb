@@ -1,9 +1,4 @@
 class SessionsController < ApplicationController
-  #def self.init_session(token)
-    #session[:jwt] ||= []
-    #session[:jwt] = token
-  #end
-
   def index
     #redirect_to '/sessions/token'
   end
