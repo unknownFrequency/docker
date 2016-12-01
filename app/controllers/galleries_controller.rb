@@ -1,5 +1,6 @@
 class GalleriesController < ApplicationController
   before_action :set_gallery, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_request!, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /galleries
   def index
@@ -16,6 +17,7 @@ class GalleriesController < ApplicationController
     render component: 'ImageForm', 
       tag: 'div', 
       authenticity_token: form_authenticity_token
+
     @gallery = Gallery.new
     @gallery_images = @gallery.gallery_images.build
   end

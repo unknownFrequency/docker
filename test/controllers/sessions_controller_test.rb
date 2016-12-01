@@ -7,6 +7,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     #parsed_response = JSON.parse(response.body)
     @app_controller = ApplicationController.new
     @home_controller = HomeController.new
+    @session_controller = SessionsController.new
     @json_params = { data:
                        {email: "walther@diechmann.net"},
                      headers:
@@ -15,6 +16,14 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
                    }.as_json
     @token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IndhbHRoZXJAZGllY2htYW5uLm5ldCJ9.cOkK3kezUjWz-knlAZ35TsTu-YQCQG8LApzBJNgQCt4"
   end
+
+
+  test "method authenticate_request! should authenticate and set session" do 
+    post send_login_path, params: @json_params
+    parsed_response = JSON.parse(response.body)
+    assert_equal parsed_response['session']['auth_token'], session['jwt']['auth_token'].inspect
+  end 
+
 
   test "supply email and send mail with token" do
     assert_difference "ActionMailer::Base.deliveries.size", +1 do 
@@ -44,7 +53,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "should be denied access without valid token" do
     assert_equal (get root_path, headers: {HTTP_AUTHORIZATION: "Bearer Made.Up.Token"}), 401
     parsed_response = JSON.parse(response.body)
-    assert_equal parsed_response['errors'], "Her skal du ikke være!"
+    assert_equal parsed_response['errors'], "Du skal logge ind for at se denne side."
   end
 
   test "token should expire 2 min" do

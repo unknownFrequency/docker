@@ -1,7 +1,11 @@
 class SessionsController < ApplicationController
-  def self.init_session(token)
-    session[:jwt] ||= []
-    session[:jwt] = token
+  #def self.init_session(token)
+    #session[:jwt] ||= []
+    #session[:jwt] = token
+  #end
+
+  def index
+    #redirect_to '/sessions/token'
   end
 
   def token
@@ -9,6 +13,14 @@ class SessionsController < ApplicationController
     uri = URI::parse(url)
     url_params = CGI::parse(uri.query)
     request.headers['Authorization'] = url_params.first
+    redirect_to galleries_path
+    #puts url_params.first.inspect
+    #email = ApplicationController::decode(url_params.first )
+    #puts email.inspect
+  end
+
+  def show 
+    render json: {status: "Show method puts @session: #{session[:jwt]}"}
   end
 
   def new 
@@ -17,8 +29,8 @@ class SessionsController < ApplicationController
 
   def create
     token = params[:data][:email].present? ? create_token(params[:data][:email]) : nil
-    if token && TokenMailer.email_token(params[:data][:email], token[:auth_token]).deliver
-      render json: { status: "Token sendt", token: token[:auth_token] }
+    if token && TokenMailer.email_token(params[:data][:email], token[:auth_token]).deliver && init_session(token)
+      render json: { status: "Token sendt", token: token[:auth_token], headers: request.headers['Authorization'], session: session[:jwt] }
     else 
       render json: { status: "Noget gik galt..." }
     end

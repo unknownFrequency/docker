@@ -1,5 +1,4 @@
-Rails.application.routes.draw do
-  resources :gallery_images
+Rails.application.routes.draw do resources :gallery_images
   resources :galleries
   root 'home#index'
   get 'home/index', to: 'home#index'
@@ -9,4 +8,6 @@ Rails.application.routes.draw do
   get  'send_login', to: 'sessions#new'
   post 'send_login', to: 'sessions#create'
   get  '/sessions/token/:token', to: 'sessions#token'
+  get  '/sessions/:token', to: 'sessions#token'
+  get '/sessions/', to: 'sessions#token'
 end

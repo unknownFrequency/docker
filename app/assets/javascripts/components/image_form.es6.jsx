@@ -18,9 +18,9 @@ class ImageForm extends React.Component {
         image.src = picReader.result
 
         // TODO: Sets width+height = 0 when clicking "Browse" more than once
-        var size = scaleSize(100,100, image.width, image.height) // method from: image_handling.es6.js
+        let size = scaleSize(100,100, image.width, image.height) // method from: image_handling.es6.js
         let picFile = event.target;
-        let div = document.createElement("div");
+        var div = React.createElement("div");
         div.innerHTML = "<img class='thumbnail' width='" + size.width + "' height='" + size.height + "' src='" + picFile.result + "' />";
         output.insertBefore(div, null);
       });
