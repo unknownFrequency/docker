@@ -1,7 +1,6 @@
 class UserForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {message: "Velkommen"};
   }
 
   render() {
@@ -47,7 +46,7 @@ class UserForm extends React.Component {
 
           <br />
           <div className="actions">
-            <input type="submit" name="commit" value="Create Gallery" data-disable-with="Gem" />
+            <input type="submit" name="commit" value="Gem" data-disable-with="Gem" />
           </div>
         </form>
       </div>
