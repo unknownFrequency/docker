@@ -5,16 +5,21 @@ class GalleriesController < ApplicationController
   # GET /galleries
   def index
     @galleries = Gallery.all
+    #respond_to :html, :json
+    respond_to do |format| 
+      format.html 
+      format.json {render json: @galleries}
+    end
   end
 
   # GET /galleries/1
   def show
     @gallery_images = @gallery.gallery_images.all
+    respond_to :html, :json
   end
 
   # GET /galleries/new
   def new
-
     render component: 'ImageForm', 
       tag: 'div', 
       authenticity_token: form_authenticity_token
@@ -25,6 +30,10 @@ class GalleriesController < ApplicationController
 
   # GET /galleries/1/edit
   def edit
+    respond_to do |format| 
+      format.html 
+      format.json {render json: @gallery}
+    end
   end
 
   # POST /galleries
@@ -72,6 +81,7 @@ class GalleriesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def gallery_params
-      params.require(:gallery).permit(:name, :description, gallery_images_attributes: [:id, :gallery_id, :image])
+      params.require(:gallery).permit(:name, :description, 
+                                      gallery_images_attributes: [:id, :gallery_id, :image])
     end
 end

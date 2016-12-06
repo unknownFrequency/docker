@@ -9,9 +9,9 @@ class ApplicationController < ActionController::Base
   protected
   #This is an before_action being called from home_view
   def authenticate_request! 
-    if not email_in_token?
+    if not token_set_and_valid?
                      #session: session['jwt']['auth_token'], headers: request.headers['Authorization'] }, status: :unauthorized
-      render json: { errors: 'Du skal logge ind for at se denne side.', session: session['jwt'], enc: request.headers['Authorization'] }
+      render json: { errors: 'Du skal logge ind for at se denne side.' }
     else
       init_session(@encoded_token) if not session['jwt']
       #render json: { message: "Du er inde i varmen!" }, status: :authorized
@@ -24,9 +24,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def email_in_token?
+  def token_set_and_valid?
     if not session_set?
       encoded_token && auth_token
+    else 
+      true
     end
   end
 

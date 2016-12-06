@@ -8,10 +8,7 @@ class SessionsController < ApplicationController
     uri = URI::parse(url)
     url_params = CGI::parse(uri.query)
     request.headers['Authorization'] = url_params.first
-    redirect_to galleries_path
-    #puts url_params.first.inspect
-    #email = ApplicationController::decode(url_params.first )
-    #puts email.inspect
+    redirect_back(fallback_location: galleries_path)
   end
 
   def show 

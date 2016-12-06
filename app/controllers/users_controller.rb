@@ -2,15 +2,15 @@ class UsersController < ApplicationController
 
   ## GET
   def new
+    render component: 'UserForm', 
+      tag: 'div', 
+      authenticity_token: form_authenticity_token
+
     @user = User.new
   end
 
   ## POST
   def create
-    #respond_with User.create(email: params[:user][:email])
-    #puts "Req.format: " + request.format.inspect
-    #puts "Req.cont_type: " + request.content_type.inspect
-
     @user = User.new(user_params)
     if @user.save
       @token = authenticate_user()
@@ -18,31 +18,30 @@ class UsersController < ApplicationController
 
       @json_msg = { status: "Token sendt", token: @token[:auth_token], user_id: @user.id }
       render json: @json_msg
-
-      #begin
-        #@parsed_response = JSON.parse(response.body)
-      #rescue JSON::ParserError, TypeError => e
-          #puts e
-      #end
     else 
       puts @user.errors.inspect
     end
-
-      #else
-        #format.html { render 'home#index' }
-        #format.json { render json: @user.errors, status: :unprocessable_entity  }
-        #format.json { render json: { errors: ['Forkert Brugernavn/Password'] }, status: :unauthorized }
-      #end
   end
 
   def index
     respond_with @user if @user
   end
 
-  def update
+  def edit
   end
 
-  def delete
+  def update
+    if @user.update_attributes(user_params)
+      flash[:success] = "Profilen blev opdateret"
+      redirect_to @user
+    else
+      render 'edit'
+    end
+  end
+
+  def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "Brugeren er slettet"
   end
 
   def show 
