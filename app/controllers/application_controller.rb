@@ -18,6 +18,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def get_email
+    if session['jwt'] && session['jwt']['auth_token']
+      payload = JSON.parse(Base64.decode64(session['jwt']['auth_token'].split('.')[1]))
+      payload['email']
+    end
+  end
+
+
   def session_set?
     if session['jwt'] && session['jwt']['auth_token']
       request.headers['Authorization'] = session['jwt']['auth_token']
@@ -35,7 +43,6 @@ class ApplicationController < ActionController::Base
   ## Use JWT from session if it's present
 
   def auth_token
-    #TODO: Why do I have to call decode like that????
     auth_token ||= JsonWebToken.decode(encoded_token)
   end
 

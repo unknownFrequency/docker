@@ -1,10 +1,14 @@
 class UsersController < ApplicationController
+  before_action :authenticate_request!, only: [:new, :create, :edit, :update, :destroy]
 
   ## GET
   def new
     render component: 'UserForm', 
-      tag: 'div', 
-      authenticity_token: form_authenticity_token
+      props: {
+        authenticity_token: form_authenticity_token,
+        jwt: session['jwt'],
+        email: get_email
+    }
 
     @user = User.new
   end
@@ -13,11 +17,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      @token = authenticate_user()
-      UserMailer.email_token(@user.email, @token[:auth_token]).deliver
-
-      @json_msg = { status: "Token sendt", token: @token[:auth_token], user_id: @user.id }
-      render json: @json_msg
+      puts session.inspect
+      #render json: { status: "Token sendt", token: session['jwt']['auth_token'], user_id: @user.id }
     else 
       puts @user.errors.inspect
     end

@@ -31,16 +31,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = User.create!(@params[:user])
     assert user.valid?
   end
-  #test "JSON request can create user" do
-    #url          = 'http://localhost:8080/users'
-    #uri          = URI::parse(url)
-    #http         = Net::HTTP.new(uri.host, uri.port)
 
-    #request      = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
-    #request.body = @params.to_json
-    #response     = http.request(request) 
-    ##response = JSON.parse(response.body)
-    #puts response.inspect
-    #debugger
-  #end
+  test "should have valid token and email from token" do
+    post users_url, params: @params
+    puts session.inspect
+    assert session['jwt']['auth_token']
+  end
+
 end
