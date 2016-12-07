@@ -1,7 +1,7 @@
 class GalleriesController < ApplicationController
-  before_action :set_gallery, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_request!, only: [:new, :create, :edit, :update, :destroy]
-  skip_before_filter :verify_authenticity_token, :only => :create
+  before_action      :set_gallery, only: [:show, :edit, :update, :destroy]
+  before_action      :authenticate_request!, only: [:new, :create, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token, :only => :create
 
   # GET /galleries
   def index
@@ -49,7 +49,7 @@ class GalleriesController < ApplicationController
             @gallery.gallery_images.create!(image: image)
           end
         elsif params[:gallery_images][:image].count == 1
-          @gallery.gallery_images.create!(image: params[:gallery_images][:image])
+          @gallery.gallery_images.create!(image: params[:gallery_images][:image][0])
         end
       end
 
