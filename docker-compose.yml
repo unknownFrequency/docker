@@ -23,6 +23,7 @@ services:
     stdin_open: true
     volumes:
       - .:/app
+      - ./assets/uploads:/app/public/uploads
       - /app/log
       - bundle:/bundle
     depends_on:
@@ -40,9 +41,8 @@ services:
     depends_on:
       - web
 
-  
 networks:
   db:
 volumes:
   mysql:
-  bundle: {}
+  bundle: 
