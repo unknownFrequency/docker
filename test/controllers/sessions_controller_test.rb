@@ -75,5 +75,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
    get root_path
    assert_equal session[:jwt], @token
  end
+
+  test "token method should have email variable" do
+  end
 end
 

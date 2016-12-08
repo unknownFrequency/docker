@@ -8,8 +8,23 @@ class SessionsController < ApplicationController
     uri = URI::parse(url)
     url_params = CGI::parse(uri.query)
     request.headers['Authorization'] = url_params.first
-    redirect_back(fallback_location: galleries_path)
+    #puts logger.debug(get_email)
+    email = get_email
+    unless User.exists?(email: email)
+      if @user = User.create!(email: email)
+        flash[:notice] = "Velkommen"
+        ## TODO: Change to galleries_path
+        redirect_to edit_user_path(@user.id)
+      else
+        flash[:alert] = "Noget gik galt. Bruger ikke oprettet, men du kan stadig kigge rundt. Prøv igen"
+      end
+    else
+      @user = User.find_by_email(email)
+      redirect_to galleries_path(user_id: @user.id)
+    end
+    #redirect_back(fallback_location: galleries_path)
   end
+
 
   def show 
     render json: {status: "Show method puts @session: #{session[:jwt]}"}

@@ -16,12 +16,11 @@ class UsersController < ApplicationController
   ## POST
   def create
     @user = User.new(user_params)
-    if @user.save
-      puts session.inspect
-      #render json: { status: "Token sendt", token: session['jwt']['auth_token'], user_id: @user.id }
-    else 
-      puts @user.errors.inspect
+    puts logger.debug(user_params.inspect)
+    if User.find_by_email(user_params[:email]) 
+      redirect_to edit_user_path([:email])
     end
+    redirect_to galleries_path ? @user.save : flash[:warning] = "Vi kunne ikke gemme din bruger i databasen"
   end
 
   def index
@@ -29,6 +28,13 @@ class UsersController < ApplicationController
   end
 
   def edit
+    render component: 'UserForm', 
+      props: {
+        authenticity_token: form_authenticity_token,
+        jwt: session['jwt'],
+        email: get_email
+    }
+
   end
 
   def update
