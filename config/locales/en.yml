@@ -21,3 +21,8 @@
 
 en:
   hello: "Hello world"
+  errors:
+    messages:
+      wrong_size: "har forkert størrelse (skal være %{file_size})"
+      size_too_small: "er for lille (skal være %{file_size})"
+      size_too_big: "er for stor (skal være %{file_size})"

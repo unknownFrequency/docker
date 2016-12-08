@@ -2,10 +2,10 @@ class GalleryImagesController < ApplicationController
   before_action :set_gallery_image, only: [:show, :edit, :update, :destroy]
   #before_action :image_size_validation, only: [:create, :update]
 
-  #private
-  #def image_size_validation
-    #errors[:image] << "Billedet skal fylde mindre end 500KB" if image.size > 0.5.megabytes
-  #end
+  private
+  def image_size_validation
+    errors[:image] << "Billedet skal fylde mindre end 500KB" if @gallery_image.size > 0.5.megabytes
+  end
 
   # GET /gallery_images
   def index
@@ -28,8 +28,10 @@ class GalleryImagesController < ApplicationController
   # POST /gallery_images
   def create
     @gallery_image = GalleryImage.new(gallery_image_params)
-    unless @gallery_image.save
-      render :new
+    if image_size_validation
+      unless @gallery_image.save
+        render :new
+      end
     end
   end
 
