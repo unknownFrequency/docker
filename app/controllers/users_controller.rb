@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     if User.find_by_email(user_params[:email]) 
       redirect_to edit_user_path([:email])
     end
-    redirect_to galleries_path ? @user.save : flash[:warning] = "Vi kunne ikke gemme din bruger i databasen"
+    redirect_to galleries_path if @user.save 
   end
 
   def index
@@ -32,17 +32,26 @@ class UsersController < ApplicationController
       props: {
         authenticity_token: form_authenticity_token,
         jwt: session['jwt'],
-        email: get_email
+        email: get_email,
+        user_id: params[:id]
+        ## TODO: pass method patch
     }
 
   end
 
   def update
-    if @user.update_attributes(user_params)
+    user = User.find(params[:id])
+    if user.update_attributes(user_params)
+      #logger.debug(user_params)
       flash[:success] = "Profilen blev opdateret"
-      redirect_to @user
+      respond_with user, json: user
+      respond_to do |format| 
+        format.html 
+        format.json { render json: user }
+      end
     else
-      render 'edit'
+      flash[:alert] = "Profilen blev IKKE opdateret"
+      redirect_back(fallback_location: edit_user_path(params[:id]))
     end
   end
 
@@ -56,6 +65,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :address,:username, :firstname, :lastname, :zip)
+    params.require(:user).permit(:id, :email, :address,:username, :firstname, :lastname, :zip)
   end
 end

@@ -4,24 +4,28 @@ class UserForm extends React.Component {
   }
 
   render() {
+    let action = `/user/{this.props.user_id}`
+    let name   = "edit_user"
 
     return (
       <div>
         <p>{console.log(this.props.email)}</p>
         <output id="result" />
 
-        <form className="new_user" id="new_user" encType="multipart/form-data" action="/users" acceptCharset="UTF-8" method="post">
+        <form className={name} id={name} encType="multipart/form-data"
+            action="/users/7" acceptCharset="UTF-8" method="post">
+          <input type="hidden" name="_method" value="patch" />
           <input name="utf8" type="hidden" value="&#x2713;" />
           <input type="hidden" name="authenticity_token" value={this.props.authenticity_token} />
 
           <div className="field">
-            <label htmlFor="user_username">Email</label>
-            <input type="text" name="user[username]" id="user_name" value={this.props.email} readonly />
+            <label htmlFor="user_email">Email</label>
+            <input type="text" name="user[email]" id="user_email" value={this.props.email} readonly />
           </div>
 
           <div className="field">
             <label htmlFor="user_username">Brugernavn</label>
-            <input type="text" name="user[username]" id="user_name" />
+            <input type="text" name="user[username]" id="user_username" />
           </div>
 
           <div className="field">
@@ -36,12 +40,12 @@ class UserForm extends React.Component {
 
           <div className="field">
             <label htmlFor="user_address">Addresse</label>
-            <input type="text" name="address[lastname]" id="user_address" />
+            <input type="text" name="user[address]" id="user_address" />
           </div>
 
           <div className="field">
             <label htmlFor="user_zip">Postnr.</label>
-            <input type="text" name="zip[lastname]" id="user_zip" />
+            <input type="text" name="user[zip]" id="user_zip" />
           </div>
 
           <br />
