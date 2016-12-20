@@ -28,12 +28,13 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find_by_email(get_email)
+    logger.debug(@user.inspect)
     render component: 'UserForm', 
       props: {
         authenticity_token: form_authenticity_token,
         jwt: session['jwt'],
-        email: get_email,
-        user_id: params[:id]
+        user: @user
         ## TODO: pass method patch
     }
 
@@ -42,9 +43,8 @@ class UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     if user.update_attributes(user_params)
-      #logger.debug(user_params)
       flash[:success] = "Profilen blev opdateret"
-      respond_with user, json: user
+      
       respond_to do |format| 
         format.html 
         format.json { render json: user }
