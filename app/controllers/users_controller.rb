@@ -3,11 +3,14 @@ class UsersController < ApplicationController
 
   ## GET
   def new
-    render component: 'UserForm', 
+    render component: 'UserForm',
       props: {
         authenticity_token: form_authenticity_token,
         jwt: session['jwt'],
-        email: get_email
+        method: "post",
+        name: "new_user",
+        action: "/users",
+        user: { email: get_email }
     }
 
     @user = User.new
@@ -29,15 +32,16 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find_by_email(get_email)
-    logger.debug(@user.inspect)
-    render component: 'UserForm', 
+
+    render component: 'UserForm',
       props: {
         authenticity_token: form_authenticity_token,
         jwt: session['jwt'],
+        method: "patch",
+        name: "edit_user",
+        action: "/users/#{@user.id}",
         user: @user
-        ## TODO: pass method patch
     }
-
   end
 
   def update

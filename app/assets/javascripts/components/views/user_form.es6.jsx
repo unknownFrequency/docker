@@ -4,18 +4,15 @@ class UserForm extends React.Component {
   }
 
   render() {
-    let action = `/user/{this.props.user_id}`
-    let name   = "edit_user"
-
     return (
       <div>
-        <p>{console.log(this.props.user.email)}</p>
         <output id="result" />
 
-        <form className={name} id={name} encType="multipart/form-data"
-            action="/users/7" acceptCharset="UTF-8" method="post">
-          <input type="hidden" name="_method" defaultValue="patch" />
-          <input name="utf8" type="hidden" defaultValue="&#x2713;" />
+        <form className={this.props.name} id={this.props.name} encType="multipart/form-data"
+            action={this.props.action} acceptCharset="UTF-8" method="post">
+
+          <input type="hidden" name="_method" defaultValue={this.props.method} />
+          <input type="hidden" name="utf8" defaultValue="&#x2713;" />
           <input type="hidden" name="authenticity_token" value={this.props.authenticity_token} />
 
           <div className="field">
