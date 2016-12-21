@@ -1,17 +1,32 @@
 class UsersController < ApplicationController
   before_action :authenticate_request!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+
+  ##
+  ## TODO ##
+  ##
+  ## Rating 
+  ## Avatar
+  ##
 
   ## GET
   def new
-    render component: 'UserForm',
-      props: {
-        authenticity_token: form_authenticity_token,
-        jwt: session['jwt'],
-        method: "post",
-        name: "new_user",
-        action: "/users",
-        user: { email: get_email }
-    }
+    @email = get_email
+
+    respond_to do |format|
+      format.html {
+        render component: 'UserForm',
+          props: {
+            authenticity_token: form_authenticity_token,
+            jwt: session['jwt'],
+            method: "post",
+            name: "new_user",
+            action: "/users",
+            user: { email: @email }
+        }
+      }
+      format.json { render json: {email: @email} }
+    end
 
     @user = User.new
   end
@@ -33,15 +48,21 @@ class UsersController < ApplicationController
   def edit
     @user = User.find_by_email(get_email)
 
-    render component: 'UserForm',
-      props: {
-        authenticity_token: form_authenticity_token,
-        jwt: session['jwt'],
-        method: "patch",
-        name: "edit_user",
-        action: "/users/#{@user.id}",
-        user: @user
-    }
+    respond_to do |format| 
+      format.html { 
+        render component: 'UserForm',
+          props: {
+            authenticity_token: form_authenticity_token,
+            jwt: session['jwt'],
+            method: "patch",
+            name: "edit_user",
+            action: "/users/#{@user.id}",
+            user: @user
+        }
+      }
+      format.json { render json: @user }
+    end
+
   end
 
   def update
@@ -65,10 +86,20 @@ class UsersController < ApplicationController
   end
 
   def show 
-    respond_with @user if @user
+    @user = User.find(params[:id])
+
+      respond_to do |format| 
+        format.html { render component: 'User', props: {user: @user} }
+        format.json { render json: @user }
+      end
   end
 
-  def user_params
-    params.require(:user).permit(:id, :email, :address,:username, :firstname, :lastname, :zip)
-  end
+  private
+    def set_user
+      @user = User.find(params[:id])
+    end
+
+    def user_params
+      params.require(:user).permit(:id, :email, :address,:username, :firstname, :lastname, :zip)
+    end
 end
