@@ -1,13 +1,14 @@
 class UsersController < ApplicationController
   before_action :authenticate_request!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
-  ##
-  ## TODO ##
-  ##
-  ## Rating 
-  ## Avatar
-  ##
+  ############
+  ##        ##
+  ##  TODO  ##
+  ##        ##
+  ## Rating ##
+  ## Avatar ##
+  ##        ##
+  ############
 
   ## GET
   def new
@@ -34,8 +35,8 @@ class UsersController < ApplicationController
   ## POST
   def create
     @user = User.new(user_params)
-    puts logger.debug(user_params.inspect)
     if User.find_by_email(user_params[:email]) 
+      ## Redirect to edit if email has been saved to db
       redirect_to edit_user_path([:email])
     end
     redirect_to galleries_path if @user.save 

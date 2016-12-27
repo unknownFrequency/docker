@@ -23,26 +23,31 @@ class UserForm extends React.Component {
           <div className="field">
             <label htmlFor="user_username">Brugernavn</label>
             <input type="text" name="user[username]" id="user_username" defaultValue={this.props.user.username} />
+            <span style={{marginLeft: 20 + 'px', color: 'red', display: 'inline'}}>*</span>
           </div>
 
           <div className="field">
             <label htmlFor="user_firstname">Fornavn</label>
             <input type="text" name="user[firstname]" id="user_firstname" defaultValue={this.props.user.firstname} />
+            <span style={{marginLeft: 20 + 'px', color: 'red', display: 'inline'}}>*</span>
           </div>
 
           <div className="field">
             <label htmlFor="user_lastname">Efternavn</label>
             <input type="text" name="user[lastname]" id="user_lastname" defaultValue={this.props.user.lastname} />
+            <span style={{marginLeft: 20 + 'px', color: 'red', display: 'inline'}}>*</span>
           </div>
 
           <div className="field">
             <label htmlFor="user_address">Addresse</label>
             <input type="text" name="user[address]" id="user_address" defaultValue={this.props.user.address} />
+            <span style={{marginLeft: 20 + 'px', color: 'red', display: 'inline'}}>*</span>
           </div>
 
           <div className="field">
             <label htmlFor="user_zip">Postnr.</label>
             <input type="text" name="user[zip]" id="user_zip" defaultValue={this.props.user.zip} />
+            <span style={{marginLeft: 20 + 'px', color: 'red', display: 'inline'}}>*</span>
           </div>
 
           <br />
