@@ -4,7 +4,8 @@
 class TokenMailer < ApplicationMailer
 
   def email_token(email, token)
-    @url  = "http://localhost:8080/token/?token=#{token}"
+    ## !TODO in production --> Change to real URL
+    @url  = "http://localhost:8080/sessions/?token=#{token}"
       mail(
         to: email, 
         subject: "Flyover login link"

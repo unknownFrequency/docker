@@ -21,6 +21,12 @@ class UserForm extends React.Component {
           </div>
 
           <div className="field">
+            <label htmlFor="user_avatar">Billeder</label>
+            <input onChange={(e)=>this.handleImageChange(e)}
+              name="user[avatar]" type="file" id="user_avatar" />
+          </div>
+
+          <div className="field">
             <label htmlFor="user_username">Brugernavn</label>
             <input type="text" name="user[username]" id="user_username" defaultValue={this.props.user.username} />
             <span style={{marginLeft: 20 + 'px', color: 'red', display: 'inline'}}>*</span>

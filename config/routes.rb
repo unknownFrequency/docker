@@ -2,6 +2,7 @@ Rails.application.routes.draw do resources :gallery_images
   resources :galleries
   resources :gallery_images
   resources :users 
+  get '/users/uploads'
 
   root 'home#index'
   get 'home/index', to: 'home#index'

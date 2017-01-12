@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220215401) do
+ActiveRecord::Schema.define(version: 20161227220832) do
 
   create_table "galleries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20161220215401) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "active"
+    t.string   "avatar"
   end
 
 end

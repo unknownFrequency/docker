@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_request!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+
   ############
   ##        ##
   ##  TODO  ##
@@ -65,10 +66,11 @@ class UsersController < ApplicationController
     end
 
   end
-
+  
   def update
     user = User.find(params[:id])
-    if user.update_attributes(user_params)
+    if user.update(user_params)
+      #user.update_attributes!(avatar: params[:user][:image])
       flash[:success] = "Profilen blev opdateret"
       
       respond_to do |format| 
@@ -88,11 +90,21 @@ class UsersController < ApplicationController
 
   def show 
     @user = User.find(params[:id])
+    logger.debug @user.avatar.url
 
-      respond_to do |format| 
-        format.html { render component: 'User', props: {user: @user} }
-        format.json { render json: @user }
-      end
+    respond_to do |format| 
+      format.html { render component: 'User', props: { 
+        user: {
+          username: @user.username,
+          firstname: @user.firstname,
+          lastname: @user.lastname,
+          zip: @user.zip,
+          address: @user.address,
+          avatar: @user.avatar.url,
+          thumb: @user.avatar.thumb.url
+      } } }
+      format.json { render json: @user }
+    end
   end
 
   private
@@ -101,6 +113,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:id, :email, :address,:username, :firstname, :lastname, :zip)
+      params.require(:user).permit(
+        :id, :email, :address, :username, :firstname, :lastname, :zip, :avatar)
     end
 end
