@@ -7,9 +7,26 @@ class UsersController < ApplicationController
   ##  TODO  ##
   ##        ##
   ## Rating ##
-  ## Avatar ##
   ##        ##
   ############
+  #          #
+  # http://stackoverflow.com/questions/20320913/creating-user-with-rails-api-and-json
+  #          #
+  #          #
+
+  def upvote 
+    voting_user = User.find_by_email(get_email)
+    user = User.find(params[:user_id])
+    user.upvote_by voting_user 
+    redirect_to :back
+  end  
+
+  def downvote
+    voting_user = User.find_by_email(get_email)
+    user = User.find(params[:user_id])
+    user.downvote_by voting_user 
+    redirect_to :back
+  end
 
   ## GET
   def new
@@ -43,10 +60,6 @@ class UsersController < ApplicationController
     redirect_to galleries_path if @user.save 
   end
 
-  def index
-    respond_with @user if @user
-  end
-
   def edit
     @user = User.find_by_email(get_email)
 
@@ -62,24 +75,29 @@ class UsersController < ApplicationController
             user: @user
         }
       }
-      format.json { render json: @user }
+      format.json { 
+        render json: @user
+      }
     end
-
   end
   
   def update
-    user = User.find(params[:id])
-    if user.update(user_params)
-      #user.update_attributes!(avatar: params[:user][:image])
+    @user = User.find(params[:id])
+    if @user.update(user_params)
       flash[:success] = "Profilen blev opdateret"
-      
+
       respond_to do |format| 
         format.html 
-        format.json { render json: user }
+e       format.json { 
+          User.create(user_params)
+          render json: @user 
+        }
       end
     else
-      flash[:alert] = "Profilen blev IKKE opdateret"
-      redirect_back(fallback_location: edit_user_path(params[:id]))
+      respond_to do |format| 
+        format.html { redirect_back(fallback_location: edit_user_path(params[:id])) } 
+        format.json { render json: flash[:alert]}
+      end
     end
   end
 
@@ -90,18 +108,19 @@ class UsersController < ApplicationController
 
   def show 
     @user = User.find(params[:id])
-    logger.debug @user.avatar.url
 
     respond_to do |format| 
       format.html { render component: 'User', props: { 
         user: {
+          id: @user.id,
           username: @user.username,
           firstname: @user.firstname,
           lastname: @user.lastname,
           zip: @user.zip,
           address: @user.address,
           avatar: @user.avatar.url,
-          thumb: @user.avatar.thumb.url
+          thumb: @user.avatar.thumb.url,
+          rating: @user.get_upvotes.size,
       } } }
       format.json { render json: @user }
     end

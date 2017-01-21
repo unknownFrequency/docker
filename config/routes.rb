@@ -1,8 +1,12 @@
 Rails.application.routes.draw do resources :gallery_images
   resources :galleries
   resources :gallery_images
-  resources :users 
-  get '/users/uploads'
+
+  resources :users do
+    get '/users/uploads'
+    put "like", to: "users#upvote"
+    put "dislike", to: "users#downvote"
+  end
 
   root 'home#index'
   get 'home/index', to: 'home#index'

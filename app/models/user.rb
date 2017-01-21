@@ -1,12 +1,13 @@
 class User < ApplicationRecord
   mount_uploader :avatar, ImageUploader
+  acts_as_votable
 
   validates :email, 
     presence: true
 
   validates :username, 
     presence: false, 
-    uniqueness: true, 
+    uniqueness: { message: "Brugernavnet er allerede taget" },
     on: :update
 
   ### 1 or more words, then space, then number between 1,99999

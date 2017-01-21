@@ -33,6 +33,7 @@ gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 gem 'react-rails'
 gem 'responders'
 gem 'cocoon'
+gem 'acts_as_votable', '~> 0.10.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-es6-promise'
