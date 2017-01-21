@@ -21,7 +21,8 @@ class User extends React.Component {
               <p>Dislike</p>
             </a>
           </li>
-          <li>Anbefalet af <strong>{this.props.user.rating}</strong> brugere</li>
+          <li>Anbefalet af <strong>{this.props.user.likes}</strong> brugere</li>
+          <li>Fraraades af <strong>{this.props.user.dislikes}</strong> brugere</li>
         </ul>
       </div>
     )

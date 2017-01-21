@@ -120,7 +120,8 @@ e       format.json {
           address: @user.address,
           avatar: @user.avatar.url,
           thumb: @user.avatar.thumb.url,
-          rating: @user.get_upvotes.size,
+          likes: @user.get_upvotes.size,
+          dislikes: @user.get_downvotes.size,
       } } }
       format.json { render json: @user }
     end
