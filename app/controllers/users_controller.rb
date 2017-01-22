@@ -89,6 +89,7 @@ class UsersController < ApplicationController
       respond_to do |format| 
         format.html 
 e       format.json { 
+          ## TODO test this! 
           User.create(user_params)
           render json: @user 
         }
