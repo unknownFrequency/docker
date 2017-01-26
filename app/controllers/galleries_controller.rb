@@ -8,7 +8,12 @@ class GalleriesController < ApplicationController
     @galleries = Gallery.all
     #respond_to :html, :json
     respond_to do |format| 
-      format.html 
+      format.html {
+        render component: 'Gallery',
+          props: {
+            images: @gallery_images
+          }
+      }
       format.json {render json: @galleries}
     end
   end
@@ -16,7 +21,11 @@ class GalleriesController < ApplicationController
   # GET /galleries/1
   def show
     @gallery_images = @gallery.gallery_images.all
-    respond_to :html, :json
+    respond_to do |format|
+      format.json {
+        render json: @gallery_images
+      }
+    end
   end
 
   # GET /galleries/new
