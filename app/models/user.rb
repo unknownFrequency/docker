@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many  :galleries, dependent: :destroy
   mount_uploader :avatar, ImageUploader
   acts_as_votable
 

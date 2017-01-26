@@ -5,6 +5,8 @@ class GalleriesController < ApplicationController
 
   # GET /galleries
   def index
+    @users = User.all
+    @gallery_images = @gallery.gallery_images.all
     @galleries = Gallery.all
     #respond_to :html, :json
     respond_to do |format| 
@@ -20,10 +22,14 @@ class GalleriesController < ApplicationController
 
   # GET /galleries/1
   def show
-    @gallery_images = @gallery.gallery_images.all
     respond_to do |format|
-      format.json {
-        render json: @gallery_images
+      format.json { render json: @gallery }
+      format.html {
+        render component: 'Gallery',
+        props: {
+          gallery: @gallery,
+          user: User.find(@gallery.user_id)
+        }
       }
     end
   end
@@ -49,8 +55,9 @@ class GalleriesController < ApplicationController
   # POST /galleries
   def create
     @gallery = Gallery.new(gallery_params)
+    @gallery.user_id = User.find_by_email(get_email).id
 
-    if @gallery.save
+    if (@gallery.user_id != nil?) && @gallery.save
       ## If multiple images have been added
       if params[:gallery_images]
         if params[:gallery_images][:image].count > 1 
@@ -91,7 +98,7 @@ class GalleriesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def gallery_params
-      params.require(:gallery).permit(:name, :description, 
+      params.require(:gallery).permit(:name, :description, :user_id,
                                       gallery_images_attributes: [:id, :gallery_id, :image])
     end
 end
