@@ -28,6 +28,7 @@ class GalleriesController < ApplicationController
         render component: 'Gallery',
         props: {
           gallery: @gallery,
+          images: @gallery.gallery_images.all,
           user: User.find(@gallery.user_id)
         }
       }
