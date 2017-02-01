@@ -1,3 +1,8 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
 <%= link_to "Ny Bruger", new_user_path  %>
+<%= link_to user_like_path(5), method: :put do %>
+  <%= session['jwt']['auth_token'].inspect %>
+  <p>Like</p>
+<% end %>
+    
+  <%= @user.get_upvotes.size.inspect %>
+  <%= @rating %>
