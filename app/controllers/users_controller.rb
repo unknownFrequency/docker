@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   ##        ##
   ##  TODO  ##
   ##        ##
-  ## Rating ##
+  ##        ##
   ##        ##
   ############
   #          #
@@ -17,14 +17,14 @@ class UsersController < ApplicationController
   def upvote 
     voting_user = User.find_by_email(get_email)
     user = User.find(params[:user_id])
-    user.upvote_by voting_user 
+    user.upvote_by voting_user unless voting_user.id == user.id
     redirect_to :back
   end  
 
   def downvote
     voting_user = User.find_by_email(get_email)
     user = User.find(params[:user_id])
-    user.downvote_by voting_user 
+    user.downvote_by voting_user unless voting_user.id == user.id
     redirect_to :back
   end
 
@@ -75,15 +75,13 @@ class UsersController < ApplicationController
             user: @user
         }
       }
-      format.json { 
-        render json: @user
-      }
+      format.json { render json: @user }
     end
   end
   
   def update
     @user = User.find_by_email(user_params[:email])
-    if @user.update!(user_params)
+    if @user.update(user_params)
       flash[:success] = "Profilen blev opdateret"
 
       respond_to do |format| 
