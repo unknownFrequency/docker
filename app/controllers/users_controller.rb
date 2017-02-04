@@ -82,8 +82,8 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.find(params[:id])
-    if @user.update(user_params)
+    @user = User.find_by_email(user_params[:email])
+    if @user.update!(user_params)
       flash[:success] = "Profilen blev opdateret"
 
       respond_to do |format| 
