@@ -5,15 +5,13 @@ class GalleriesController < ApplicationController
 
   # GET /galleries
   def index
-    @users = User.all
-    @gallery_images = @gallery.gallery_images.all
-    @galleries = Gallery.all
-    #respond_to :html, :json
     respond_to do |format| 
       format.html {
-        render component: 'Gallery',
+        render component: 'Galleries',
           props: {
-            images: @gallery_images
+            galleries: Gallery.all,
+            images: GalleryImage.all,
+            users: User.all
           }
       }
       format.json {render json: @galleries}

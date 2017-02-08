@@ -8,7 +8,7 @@ class User extends React.Component {
       <div>
         <h2>{this.props.user.username}</h2>
         <ul>
-          <li><ClickableImage src={this.props.user.avatar} href={`/users/${this.props.user.id}`} /></li>
+          <li><ClickableImage src={this.props.user.thumb} href={`/users/${this.props.user.id}`} /></li>
           <li>Fornavn: <strong>{this.props.user.firstname}</strong></li>
           <li>Efternavn: <strong>{this.props.user.lastname}</strong></li>
           <li>Postnr: <strong>{this.props.user.zip}</strong></li>

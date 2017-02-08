@@ -30,7 +30,6 @@ class ImageForm extends React.Component {
   }
 
   render() {
-
     return (
       <div>
         <output id="result" />

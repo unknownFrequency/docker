@@ -5,11 +5,11 @@ class ImageList extends React.Component {
 
   render() {
     return(
-      <ul>
+      <div>
         {this.props.images.map( image => (
             <ImageListItem key={image.id} image={image} />
         ))}
-      </ul>
+      </div>
     )
   }
 };

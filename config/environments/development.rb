@@ -27,8 +27,6 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
-
-
   config.cache_classes = false
   config.eager_load = false
   config.consider_all_requests_local = false
@@ -45,13 +43,9 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-
-
   config.active_support.deprecation = :log
   config.active_record.migration_error = :page_load
   config.assets.debug = true
   config.assets.quiet = true
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
-
 end

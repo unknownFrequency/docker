@@ -30,8 +30,6 @@ class UsersController < ApplicationController
 
   ## GET
   def new
-    @email = get_email
-
     respond_to do |format|
       format.html {
         render component: 'UserForm',
@@ -41,10 +39,10 @@ class UsersController < ApplicationController
             method: "post",
             name: "new_user",
             action: "/users",
-            user: { email: @email }
+            user: { email: get_email }
         }
       }
-      format.json { render json: {email: @email} }
+      format.json { render json: {email: get_email} }
     end
 
     @user = User.new
@@ -85,7 +83,7 @@ class UsersController < ApplicationController
       flash[:success] = "Profilen blev opdateret"
 
       respond_to do |format| 
-        format.html 
+        format.html { redirect_to user_path(@user) }
         format.json { 
           ## TODO test this! 
           User.create(user_params)
@@ -94,8 +92,8 @@ class UsersController < ApplicationController
       end
     else
       respond_to do |format| 
-        format.html { redirect_back(fallback_location: edit_user_path(params[:id])) } 
-        format.json { render json: flash[:alert]}
+        format.html { redirect_back fallback_location: edit_user_path(params[:id]) } 
+        format.json { render json: flash[:alert] }
       end
     end
   end
@@ -106,7 +104,8 @@ class UsersController < ApplicationController
   end
 
   def show 
-    @user = User.find(params[:id])
+    @user = User.find_by_email(get_email)
+    #@avatar = @user.avatar.url ? @user.avatar.url : 'assets/images/default.png'
 
     respond_to do |format| 
       format.html { render component: 'User', props: { 
@@ -128,7 +127,7 @@ class UsersController < ApplicationController
 
   private
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by_email(get_email)
     end
 
     def user_params
