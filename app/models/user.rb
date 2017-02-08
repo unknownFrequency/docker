@@ -7,6 +7,7 @@ class User < ApplicationRecord
     presence: true
 
   validates :username, 
+    allow_blank: true,
     presence: false, 
     uniqueness: { message: "Brugernavnet er allerede taget" },
     on: :update

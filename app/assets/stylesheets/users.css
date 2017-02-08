@@ -1,0 +1,15 @@
+.vote {
+  float: left;
+  display: inline;
+  margin: 10px 0 10px 5px;
+  padding: 10px;
+  border: 1px solid #942;
+  text-decoration: none;
+}
+
+
+.votes {
+  margin: 10px 0 -9px 0;
+  display: block;
+  clear: both;
+}
